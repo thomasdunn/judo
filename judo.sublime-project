@@ -1,0 +1,18 @@
+{
+	"build_systems":
+	[
+		{
+			"cmd": ["C:\\code\\JUDO\\build.bat"],
+			"name":"Build code"
+		}
+	],
+	"folders":
+	[
+		{
+			"path": "src/org/judo"
+		},
+		{
+			"path": "/C/code/JUDO"
+		}
+	]
+}

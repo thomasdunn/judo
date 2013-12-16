@@ -4,3 +4,8 @@
 *.jar
 *.war
 *.ear
+
+src/jdk1.3
+Notes.txt
+judo.sublime-workspace
+src/MyJUDOPrograms
