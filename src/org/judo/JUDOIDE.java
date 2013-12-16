@@ -173,7 +173,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   JMenuItem appletWizardMenuItem;
 
   JMenu helpMenu;
-  JMenuItem judoHelpMenuItem;
   JMenuItem tutorialsMenuItem;
   JMenuItem functionReferenceMenuItem;
   JMenuItem colorReferenceMenuItem;
@@ -418,9 +417,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
 
     helpMenu = new JMenu(lz.IDE_HELP);
     helpMenu.setMnemonic('h');
-    judoHelpMenuItem = new JMenuItem(lz.IDE_HELP_JUDO_HELP, KeyEvent.VK_H);
-    judoHelpMenuItem.setMnemonic('h');
-    judoHelpMenuItem.addActionListener(this);
     tutorialsMenuItem = new JMenuItem(lz.IDE_HELP_TUTORIALS, KeyEvent.VK_T);
     tutorialsMenuItem.setMnemonic('t');
     tutorialsMenuItem.addActionListener(this);
@@ -468,8 +464,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
 //    menuBar.add(programMenu);
 
     menuBar.add(helpMenu);
-    helpMenu.add(judoHelpMenuItem);
-    helpMenu.addSeparator();
     helpMenu.add(tutorialsMenuItem);
     helpMenu.add(functionReferenceMenuItem);
     helpMenu.add(colorReferenceMenuItem);
@@ -1469,9 +1463,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     ///////////////////////////////////////////////
     // THE HELP MENUS
     ///////////////////////////////////////////////
-    else if (ae.getSource() == judoHelpMenuItem) {
-      openHelpItem(lz.IDE_HELP_JUDO_HELP, "index.html", true);
-    }
     else if (ae.getSource() == tutorialsMenuItem) {
       openHelpItem(lz.IDE_HELP_JUDO_HELP, "index.html", true);
     }
