@@ -35,12 +35,8 @@ public class JUDO_en extends JUDO_localization {
     IDE_FILE_NEW = "New";
     IDE_FILE_SAVE = "Save";
     IDE_FILE_SAVE_NEW_NAME = "Save with New Name...";
-    IDE_FILE_SAVE_FLOPPY = "Save to Floppy";
-    IDE_FILE_SAVE_FLOPPY_NEW_NAME = "Save to Floppy with New Name...";
     IDE_FILE_OPEN = "Open Program...";
-    IDE_FILE_OPEN_FLOPPY = "Open Program From Floppy...";
     IDE_FILE_DELETE = "Delete Program...";
-    IDE_FILE_DELETE_FLOPPY = "Delete Program From Floppy...";
     IDE_FILE_EXIT = "Exit";
 
     IDE_EDIT = "Edit";
@@ -77,16 +73,11 @@ public class JUDO_en extends JUDO_localization {
     IDE_SAVE_TIT = "Save";
     IDE_PROG_EXISTS_MSG = "Program \"%s\" already exists.  Replace it?";
     IDE_PROG_EXISTS_TIT = "Program already exists";
-    IDE_NO_FLOPPY_MSG = "There does not seem to be a Floppy disk in\nthe Floppy drive.  If there is, try ejecting\nit, putting it back in, and saving again.";
-    IDE_FLOPPY_ERR_TIT = "Error saving to Floppy Disk";
-    IDE_FLOPPY_WRITE_PROT_MSG = "Check that the Floppy Disk is not write protected.\nLook at the back of the disk.  In the top-left corner,\nthere is a little moveable tab.  Push it in the down\nposition if it is not there already and try to save again.";
     IDE_NO_PROG_DIR_MSG = "Program Directory did not exist and its re-creation failed.";
     IDE_ERR_SAVING_TIT = "Error saving";
     IDE_PROG_DIR_NOT_WRIT = "Error saving to Program Directory.  It is not writeable.";
     IDE_OPEN_NO_SAVE_MSG = "Do you want to Open a Program without\nSaving your changes to this one?";
     IDE_OPEN_NO_SAVE_TIT = "Open Without Saving?";
-    IDE_OPEN_NO_FLOPPY_MSG = "There does not seem to be a Floppy disk in\nthe Floppy drive.  If there is, try ejecting\nit, putting it back in, and opening again.";
-    IDE_OPEN_ERR_TIT = "Error opening from Floppy Disk";
     IDE_NO_PROG_MSG = "There are currently no Programs to Open";
     IDE_NO_PROG_TIT = "No Programs to Open";
     IDE_OPEN_TIT = "Open Program";
@@ -94,8 +85,6 @@ public class JUDO_en extends JUDO_localization {
     IDE_OPEN_PROG_ERR_TIT = "Error opening Program";
     IDE_NO_PROG_DEL_MSG = "There are currently no Programs to Delete";
     IDE_NO_PROG_DEL_TIT = "No Programs to Delete";
-    IDE_DEL_NO_FLOPPY_MSG = "There does not seem to be a Floppy disk in\nthe Floppy drive.  If there is, try ejecting\nit, putting it back in, and deleting again.";
-    IDE_DEL_ERR_TIT = "Error deleting from Floppy Disk";
     IDE_DEL_TIT = "Delete Program";
     IDE_NEW_WITHOUT_SAVE_MSG = "Do you want to start a New Program without\nSaving your changes to this one?";
     IDE_NEW_WITHOUT_SAVE_TIT = "New Program Without Saving?";

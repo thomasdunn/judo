@@ -35,12 +35,8 @@ public class JUDO_fr extends JUDO_localization {
     IDE_FILE_NEW = "Nouveau";
     IDE_FILE_SAVE = "Enregistrer";
     IDE_FILE_SAVE_NEW_NAME = "Enregistrer sous...";
-    IDE_FILE_SAVE_FLOPPY = "Enregistrer sur disquette";
-    IDE_FILE_SAVE_FLOPPY_NEW_NAME = "Enregistrer sur disquette sous...";
     IDE_FILE_OPEN = "Ouvrir le programme...";
-    IDE_FILE_OPEN_FLOPPY = "Ouvrir le programme de la disquette...";
     IDE_FILE_DELETE = "Effacer le programme...";
-    IDE_FILE_DELETE_FLOPPY = "Effacer le programme de la disquette...";
     IDE_FILE_EXIT = "Quitter";
 
     IDE_EDIT = "Edition";
@@ -77,15 +73,11 @@ public class JUDO_fr extends JUDO_localization {
     IDE_SAVE_TIT = "Enregistrer";
     IDE_PROG_EXISTS_MSG = "Programme \"%s\" existe déjà.  Le remplacer?";
     IDE_PROG_EXISTS_TIT = "Programme déjà existant";
-    IDE_NO_FLOPPY_MSG = "Il ne semble pas y avoir de disquette\ndans le lecteur.  Si c'est le cas, essayez d'ejecter la disquette \n, la remettre, et enregistrer à nouveau.";
-    IDE_FLOPPY_ERR_TIT = "Erreur lors de l'enregistrement sur disquette";
-    IDE_FLOPPY_WRITE_PROT_MSG = "Controler que la disquette n'est pas protégée en écriture.\nRegardez sur l'arrière de la disquette.  Il y a une pièce amovible,\nsur le coin gauche. La presser vers le bas\nsi elle n'y était pas encore et retenter l'enregistrement.";
     IDE_NO_PROG_DIR_MSG = "Le répertoire du programme n'existe pas et sa recréation a raté.";
     IDE_ERR_SAVING_TIT = "Erreur d'enregistrement";
     IDE_PROG_DIR_NOT_WRIT = "Erreur d'enregistrement du répertoire.  on ne peut pas y écrire.";
     IDE_OPEN_NO_SAVE_MSG = "Voulez-vous ouvrir un Programme sans\nenregistrer vos changements sur l'actuel?";
     IDE_OPEN_NO_SAVE_TIT = "Ouvrir sans enregistrer?";
-    IDE_OPEN_NO_FLOPPY_MSG = "Il ne semble pas y avoir de disquette\ndans le lecteur.  Si c'est le cas, essayez d'ejecter la disquette \n, la remettre, et ouvrir à nouveau.";
     IDE_OPEN_ERR_TIT = "Erreur en chargeant de la disquette";
     IDE_NO_PROG_MSG = "Il n'y a pas de programmes à ouvrir";
     IDE_NO_PROG_TIT = "Pas de programmes à ouvrir";
@@ -94,7 +86,6 @@ public class JUDO_fr extends JUDO_localization {
     IDE_OPEN_PROG_ERR_TIT = "Erreur durant l'ouverture du Programme";
     IDE_NO_PROG_DEL_MSG = "Il n'y a pas de programmes à effacer";
     IDE_NO_PROG_DEL_TIT = "=Pas de Programmes à effacer";
-    IDE_DEL_NO_FLOPPY_MSG =  "Il ne semble pas y avoir de disquette\ndans le lecteur.  Si c'est le cas, essayez d'ejecter la disquette \n, la remettre, et effacer à nouveau.";
     IDE_DEL_ERR_TIT = "Erreur d'effacement de la disquette";
     IDE_DEL_TIT = "Effacer le Programme";
     IDE_NEW_WITHOUT_SAVE_MSG = "Voulez-vous démarrer und nouveau programme sans \nenregistrer les changements sur l'actuel?";

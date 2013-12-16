@@ -45,12 +45,8 @@ public class JUDO_localization {
   public String IDE_FILE_NEW;
   public String IDE_FILE_SAVE;
   public String IDE_FILE_SAVE_NEW_NAME;
-  public String IDE_FILE_SAVE_FLOPPY;
-  public String IDE_FILE_SAVE_FLOPPY_NEW_NAME;
   public String IDE_FILE_OPEN;
-  public String IDE_FILE_OPEN_FLOPPY;
   public String IDE_FILE_DELETE;
-  public String IDE_FILE_DELETE_FLOPPY;
   public String IDE_FILE_EXIT;
 
   public String IDE_EDIT;
@@ -87,15 +83,11 @@ public class JUDO_localization {
   public String IDE_SAVE_TIT;
   public String IDE_PROG_EXISTS_MSG;
   public String IDE_PROG_EXISTS_TIT;
-  public String IDE_NO_FLOPPY_MSG;
-  public String IDE_FLOPPY_ERR_TIT;
-  public String IDE_FLOPPY_WRITE_PROT_MSG;
   public String IDE_NO_PROG_DIR_MSG;
   public String IDE_ERR_SAVING_TIT;
   public String IDE_PROG_DIR_NOT_WRIT;
   public String IDE_OPEN_NO_SAVE_MSG;
   public String IDE_OPEN_NO_SAVE_TIT;
-  public String IDE_OPEN_NO_FLOPPY_MSG;
   public String IDE_OPEN_ERR_TIT;
   public String IDE_NO_PROG_MSG;
   public String IDE_NO_PROG_TIT;
@@ -104,7 +96,6 @@ public class JUDO_localization {
   public String IDE_OPEN_PROG_ERR_TIT;
   public String IDE_NO_PROG_DEL_MSG;
   public String IDE_NO_PROG_DEL_TIT;
-  public String IDE_DEL_NO_FLOPPY_MSG;
   public String IDE_DEL_ERR_TIT;
   public String IDE_DEL_TIT;
   public String IDE_NEW_WITHOUT_SAVE_MSG;

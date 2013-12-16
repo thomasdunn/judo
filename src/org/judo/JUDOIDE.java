@@ -102,7 +102,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   String judoAppletTemplateFilename = "JUDOApplet.template";
   String judoAppJavaFilename = "JUDOApp.java";
   String judoAppletJavaFilename = "JUDOApplet.java";
-  String floppyPath = "A:" + pathSeparator;
   String extension = "judo";
   String titlePrefix = " JUDO - ";
 
@@ -156,13 +155,9 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   JMenuItem newMenuItem;
   JMenuItem saveMenuItem;
   JMenuItem saveAsMenuItem;
-  JMenuItem saveToFloppyMenuItem;
-  JMenuItem saveAsToFloppyMenuItem;
   JMenuItem openMenuItem;
-  JMenuItem openFromFloppyMenuItem;
   JMenuItem openSampleMenuItem;
   JMenuItem deleteMenuItem;
-  JMenuItem deleteFromFloppyMenuItem;
   JMenuItem exitMenuItem;
 
   JMenu editMenu;
@@ -372,23 +367,14 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     saveAsMenuItem = new JMenuItem(lz.IDE_FILE_SAVE_NEW_NAME);
     saveAsMenuItem.setMnemonic('a');
     saveAsMenuItem.addActionListener(this);
-    saveToFloppyMenuItem = new JMenuItem(lz.IDE_FILE_SAVE_FLOPPY);
-    saveToFloppyMenuItem.setMnemonic('f');
-    saveToFloppyMenuItem.addActionListener(this);
-    saveAsToFloppyMenuItem = new JMenuItem(lz.IDE_FILE_SAVE_FLOPPY_NEW_NAME);
-    saveAsToFloppyMenuItem.addActionListener(this);
     openMenuItem = new JMenuItem(lz.IDE_FILE_OPEN, KeyEvent.VK_O);
     openMenuItem.setMnemonic('o');
     openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
     openMenuItem.addActionListener(this);
-    openFromFloppyMenuItem = new JMenuItem(lz.IDE_FILE_OPEN_FLOPPY);
-    openFromFloppyMenuItem.addActionListener(this);
     openSampleMenuItem = new JMenuItem(lz.IDE_FILE_OPEN_SAMPLE);
     openSampleMenuItem.addActionListener(this);
     deleteMenuItem = new JMenuItem(lz.IDE_FILE_DELETE);
     deleteMenuItem.addActionListener(this);
-    deleteFromFloppyMenuItem = new JMenuItem(lz.IDE_FILE_DELETE_FLOPPY);
-    deleteFromFloppyMenuItem.addActionListener(this);
     exitMenuItem = new JMenuItem(lz.IDE_FILE_EXIT);
     exitMenuItem.setMnemonic('x');
     exitMenuItem.addActionListener(this);
@@ -458,24 +444,13 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     fileMenu.add(newMenuItem);
     fileMenu.addSeparator();
     fileMenu.add(openMenuItem);
-    if (isWindows) {
-      fileMenu.add(openFromFloppyMenuItem);
-    }
     fileMenu.add(openSampleMenuItem);
     fileMenu.addSeparator();
 
     fileMenu.add(saveMenuItem);
     fileMenu.add(saveAsMenuItem);
     fileMenu.addSeparator();
-    if (isWindows) {
-      fileMenu.add(saveToFloppyMenuItem);
-      fileMenu.add(saveAsToFloppyMenuItem);
-      fileMenu.addSeparator();
-    }
     fileMenu.add(deleteMenuItem);
-    if (isWindows) {
-      fileMenu.add(deleteFromFloppyMenuItem);
-    }
     fileMenu.addSeparator();
     fileMenu.add(exitMenuItem);
 
@@ -976,13 +951,7 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
       programFilename = saveDialog.getProgramFilename();
     }
 
-    if ((! defaultLocation) && isWindows) {
-      filePath = floppyPath + pathSeparator + programDirectory + pathSeparator + programFilename + "." + extension;
-    }
-    else {
-//      filePath = codeBase + pathSeparator + programDirectory + pathSeparator + programFilename + "." + extension;
-      filePath = judoProgramDir + pathSeparator + programFilename + "." + extension;
-    }
+    filePath = judoProgramDir + pathSeparator + programFilename + "." + extension;
 
     // if we are doing a save as and the file exists, we need to ask what to
     // do, otherwise, just save the file.
@@ -1015,58 +984,25 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
    */
 
   boolean writeJUDOFile(boolean defaultLocation) {
-    File floppyProgramDirectory = new File(floppyPath + pathSeparator + programDirectory);
-//    File defaultProgramDirectory = new File(codeBase + pathSeparator + programDirectory);
     File defaultProgramDirectory = new File(judoProgramDir);
 
-    // if we want to save to floppy
-    if ((! defaultLocation) && isWindows) {
-      if (! checkForFloppy()) {
-        // display disk is not in drive message, put floppy in drive and save
-        JOptionPane.showMessageDialog(this, lz.IDE_NO_FLOPPY_MSG,
-                                      lz.IDE_FLOPPY_ERR_TIT,
+    if (! defaultProgramDirectory.exists()) {
+      // judo program dir doesnt exist, try and create it
+      if (! defaultProgramDirectory.mkdir()) {
+        JOptionPane.showMessageDialog(this, lz.IDE_NO_PROG_DIR_MSG,
+                                      lz.IDE_ERR_SAVING_TIT,
                                       JOptionPane.ERROR_MESSAGE);
         return false;
       }
-      // floppy is in drive
-      else {
-        if (! floppyProgramDirectory.exists()) {
-          // judo program dir doesnt exist, try and create it
-          if (! floppyProgramDirectory.mkdir()) {
-            JOptionPane.showMessageDialog(this, lz.IDE_FLOPPY_WRITE_PROT_MSG,
-                                          lz.IDE_FLOPPY_ERR_TIT,
-                                          JOptionPane.ERROR_MESSAGE);
-            return false;
-          }
-        }
-        if (! floppyProgramDirectory.canWrite()) {
-          JOptionPane.showMessageDialog(this, lz.IDE_FLOPPY_WRITE_PROT_MSG,
-                                        lz.IDE_FLOPPY_ERR_TIT,
-                                        JOptionPane.ERROR_MESSAGE);
-          return false;
-        }
-        return writeProgramToDisk(floppyPath + pathSeparator + programDirectory + pathSeparator + programFilename + "." + extension);
+      if (! defaultProgramDirectory.canWrite()) {
+        JOptionPane.showMessageDialog(this, lz.IDE_PROG_DIR_NOT_WRIT,
+                                      lz.IDE_ERR_SAVING_TIT,
+                                      JOptionPane.ERROR_MESSAGE);
+        return false;
       }
     }
-    else {
-      if (! defaultProgramDirectory.exists()) {
-        // judo program dir doesnt exist, try and create it
-        if (! defaultProgramDirectory.mkdir()) {
-          JOptionPane.showMessageDialog(this, lz.IDE_NO_PROG_DIR_MSG,
-                                        lz.IDE_ERR_SAVING_TIT,
-                                        JOptionPane.ERROR_MESSAGE);
-          return false;
-        }
-        if (! defaultProgramDirectory.canWrite()) {
-          JOptionPane.showMessageDialog(this, lz.IDE_PROG_DIR_NOT_WRIT,
-                                        lz.IDE_ERR_SAVING_TIT,
-                                        JOptionPane.ERROR_MESSAGE);
-          return false;
-        }
-      }
-//      return writeProgramToDisk(codeBase + pathSeparator + programDirectory + pathSeparator + programFilename + "." + extension);
-        return writeProgramToDisk(judoProgramDir + pathSeparator + programFilename + "." + extension);
-    }
+    
+    return writeProgramToDisk(judoProgramDir + pathSeparator + programFilename + "." + extension);
   }
 
   boolean writeProgramToDisk(String filePath) {
@@ -1097,14 +1033,7 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     HashMap programs = new HashMap();
 
     if (programOrSample) {
-      // get list of programs off of floppy
-      if ((! defaultLocation) && isWindows) {
-        basePath = floppyPath + pathSeparator + programDirectory;
-      }
-      // get list of programs off hard drive
-      else {
-        basePath = judoProgramDir;
-      }
+      basePath = judoProgramDir;
     }
     else {
       basePath = helpSamplesDir;
@@ -1229,15 +1158,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
       }
     }
 
-    // if we are trying to open off of floppy, check that one is in the drive
-    // if it is not, display message
-    if ((! defaultLocation) && (! checkForFloppy())) {
-      JOptionPane.showMessageDialog(this, lz.IDE_OPEN_NO_FLOPPY_MSG,
-                                    lz.IDE_OPEN_ERR_TIT,
-                                    JOptionPane.ERROR_MESSAGE);
-      return false;
-    }
-
     HashMap programsMap = getProgramNames(true, defaultLocation);
     if (programsMap == null || programsMap.size() == 0) {
       JOptionPane.showMessageDialog(this, lz.IDE_NO_PROG_MSG,
@@ -1265,13 +1185,8 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
 
     // populate text area
 
-    if ((! defaultLocation) && isWindows) {
-      filePath = floppyPath + pathSeparator + programDirectory + pathSeparator + programFilename;
-    }
-    else {
-//      filePath = codeBase + pathSeparator + programDirectory + pathSeparator + programFilename;
-      filePath = judoProgramDir + pathSeparator + programFilename;
-    }
+    filePath = judoProgramDir + pathSeparator + programFilename;
+
     programText = getProgramText(filePath);
     if (programText == null || programText.equals("")) {
       JOptionPane.showMessageDialog(this, ju.getString(lz.IDE_OPEN_PROG_MSG, programName),
@@ -1325,15 +1240,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     String filePath = "";
     String programText = "";
 
-    // if we are trying to open off of floppy, check that one is in the drive
-    // if it is not, display message
-    if ((! defaultLocation) && (! checkForFloppy())) {
-      JOptionPane.showMessageDialog(this, lz.IDE_DEL_NO_FLOPPY_MSG,
-                                    lz.IDE_DEL_ERR_TIT,
-                                    JOptionPane.ERROR_MESSAGE);
-      return false;
-    }
-
     HashMap programsMap = getProgramNames(true, defaultLocation);
     if (programsMap == null || programsMap.size() == 0) {
       JOptionPane.showMessageDialog(this, lz.IDE_NO_PROG_DEL_MSG,
@@ -1354,13 +1260,7 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     programName = deleteDialog.getProgramName();
     programFilename = (String) programsMap.get(programName);
 
-    if ((! defaultLocation) && isWindows) {
-      filePath = floppyPath + pathSeparator + programDirectory + pathSeparator + programFilename;
-    }
-    else {
-//      filePath = codeBase + pathSeparator + programDirectory + pathSeparator + programFilename;
-      filePath = judoProgramDir + pathSeparator + programFilename;
-    }
+    filePath = judoProgramDir + pathSeparator + programFilename;
 
     // delete the file
     File fileToDelete = new File(filePath);
@@ -1429,10 +1329,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     return headerText;
   }
 
-  boolean checkForFloppy() {
-    File floppyDrive = new File(floppyPath);
-    return (floppyDrive.exists() && floppyDrive.canWrite());
-  }
   // end JUDO SOURCE FILE OPERATIONS METHODS
   /////////////////////////////////////////////////////////////////////////
 
@@ -1466,34 +1362,14 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
         lastSaveDefault = true;
       }
     }
-    else if (ae.getSource() == saveToFloppyMenuItem) {
-      if (save(false, false)) {
-        setTitle(titlePrefix + programName);
-        isDirty = false;
-        lastSaveDefault = false;
-      }
-    }
-    else if (ae.getSource() == saveAsToFloppyMenuItem) {
-      if (save(false, true)) {
-        setTitle(titlePrefix + programName);
-        isDirty = false;
-        lastSaveDefault = false;
-      }
-    }
     else if (ae.getSource() == openMenuItem) {
       openProgram(true);
-    }
-    else if (ae.getSource() == openFromFloppyMenuItem) {
-      openProgram(false);
     }
     else if (ae.getSource() == openSampleMenuItem) {
       openHelpItem(lz.IDE_FILE_OPEN_SAMPLE, "SamplePrograms.html", true);
     }
     else if (ae.getSource() == deleteMenuItem) {
       deleteProgram(true);
-    }
-    else if (ae.getSource() == deleteFromFloppyMenuItem) {
-      deleteProgram(false);
     }
     else if (ae.getSource() == newMenuItem) {
       newProgram();

@@ -37,12 +37,8 @@ public class JUDO_es extends JUDO_localization {
     IDE_FILE_NEW = "Nuevo";
     IDE_FILE_SAVE = "Salvar";
     IDE_FILE_SAVE_NEW_NAME = "Salvar como...";
-    IDE_FILE_SAVE_FLOPPY = "Salvar a  disco 3 1/2";
-    IDE_FILE_SAVE_FLOPPY_NEW_NAME = "Salvar a  disco 3 1/2 con nuevo nombre...";
     IDE_FILE_OPEN = "Abrir Programa...";
-    IDE_FILE_OPEN_FLOPPY = "Abrir programa en disco de 3 1/2...";
     IDE_FILE_DELETE = "Borrar programa...";
-    IDE_FILE_DELETE_FLOPPY = "Borrar programa en disco de 3 1/2...";
     IDE_FILE_EXIT = "Salir";
 
     IDE_EDIT = "Editar";
@@ -79,15 +75,11 @@ public class JUDO_es extends JUDO_localization {
     IDE_SAVE_TIT = "Salvar";
     IDE_PROG_EXISTS_MSG = " El Programa \"%s\" ya existe.  desea reemplazalo?";
     IDE_PROG_EXISTS_TIT = "El programa ya existe";
-    IDE_NO_FLOPPY_MSG = "Parece no haber disco en la unidad de 3 1/2.  si es que lo hay intente expulsandolo e introduzcalo nuevamente, salve una vez mas.";
-    IDE_FLOPPY_ERR_TIT = "Error al salvar al disco de 3 1/2";
-    IDE_FLOPPY_WRITE_PROT_MSG = "Asegurese de que el disco de 3 1/2 no esta esta protegido contra escritura.\nvea en la parte trasera del disco. en la esquina superior derecha,\nahi hay una pequeña etiqueta negra deslizable.  Precione hacia abajo\nsi es que no esta ahi ya y trate de salvar de nuevo.";
     IDE_NO_PROG_DIR_MSG = "El directorio de programa no existe y su cracion fallo.";
     IDE_ERR_SAVING_TIT = "Error al salvar";
     IDE_PROG_DIR_NOT_WRIT = "Error al salvar el directorio de programa. no es escribible.";
     IDE_OPEN_NO_SAVE_MSG = "Quiere abrir un Programa sin\n Salvar los cambios de este programa?";
     IDE_OPEN_NO_SAVE_TIT = "Abrir sin salvar?";
-    IDE_OPEN_NO_FLOPPY_MSG = "Parece no haber disco en la unidad de 3 1/2.  si es que lo hay intente expulsandolo e introduzcalo nuevamente y abra una vez mas.";
     IDE_OPEN_ERR_TIT = "Error al abrir desde la unidad de 3 1/2";
     IDE_NO_PROG_MSG = "Por el momento no hay programas que abrir";
     IDE_NO_PROG_TIT = "No hay programas que abrir";
@@ -96,7 +88,6 @@ public class JUDO_es extends JUDO_localization {
     IDE_OPEN_PROG_ERR_TIT = "Error al abrir el programa";
     IDE_NO_PROG_DEL_MSG = "Por el momento no hay programas que borrar";
     IDE_NO_PROG_DEL_TIT = "No hay programas que borrar";
-    IDE_DEL_NO_FLOPPY_MSG = "Parece no haber disco en la unidad de 3 1/2.  si es que lo hay intente expulsandolo e introduzcalo nuevamente y borre una vez mas.";
     IDE_DEL_ERR_TIT = "Error al borrar en el disco de 3 1/2";
     IDE_DEL_TIT = "Borrar Programa";
     IDE_NEW_WITHOUT_SAVE_MSG = "Quiere empezar un nuevo programa sin\nSalvar los cambios a este programa?";

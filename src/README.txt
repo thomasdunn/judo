@@ -12,10 +12,10 @@ it, or even installed it all platforms.
 
 I created JUDO while I was teaching a programming class to
 12-14 year olds in Boston, MA.  The program I did this with
-is called Citizen Schools (http://www.citizenschools.com)
+is called Citizen Schools (http://www.citizenschools.org/)
 and I recommend that you check it out.
 
-This installation of JUDO includes a copy of the Java
+This installation of JUDO may include a copy of the Java
 Development Kit from Sun Microsystems, Inc.  It is governed
 by Sun Microsystems, Inc. Binary Code License Agreement.
 

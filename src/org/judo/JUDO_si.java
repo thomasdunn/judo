@@ -37,12 +37,8 @@ public class JUDO_si extends JUDO_localization {
     IDE_FILE_NEW = "Nova";
     IDE_FILE_SAVE = "Shrani";
     IDE_FILE_SAVE_NEW_NAME = "Shrani z novim imenom...";
-    IDE_FILE_SAVE_FLOPPY = "Shrani na disketo";
-    IDE_FILE_SAVE_FLOPPY_NEW_NAME = "Shrani na disketo z novim imenom...";
     IDE_FILE_OPEN = "Odpri Program...";
-    IDE_FILE_OPEN_FLOPPY = "Odpri program z diskete...";
     IDE_FILE_DELETE = "Brisanje programa...";
-    IDE_FILE_DELETE_FLOPPY = "Brisanje programa z diskete...";
     IDE_FILE_EXIT = "Izstop";
 
     IDE_EDIT = "Uredi";
@@ -79,15 +75,11 @@ public class JUDO_si extends JUDO_localization {
     IDE_SAVE_TIT = "Shrani";
     IDE_PROG_EXISTS_MSG = "Program \"%s\" \u017Ee obstaja.  Ali naj ga zamenjam?";
     IDE_PROG_EXISTS_TIT = "Program \u017Ee obstaja";
-    IDE_NO_FLOPPY_MSG = "Izgleda, da v disketnem pogonu ni diskete. \n \u010Ce je, jo vzemi ven, spet vstavi in spet poskusi shraniti.";
-    IDE_FLOPPY_ERR_TIT = "Napaka pri shranjevanju na disketo";
-    IDE_FLOPPY_WRITE_PROT_MSG = "Preveri, \u010De ni disketa za\u0161\u010Ditena pred pisanjem.\nPoglej na zadnjo stran diskete.  Na zgornjem levem vogalu,\ntTu je majhen zati\u010D.\nPotisni ga navzdol, \u010De \u0161e ni v tem polo\u017Eaju in spet poskusi shraniti.";
     IDE_NO_PROG_DIR_MSG = "Programski direktorij ne obstaja in ga ne morem tvoriti.";
     IDE_ERR_SAVING_TIT = "Napaka pri shranjevanju";
     IDE_PROG_DIR_NOT_WRIT = "Napaka pri shranjevanju v programski direktorij.  Ta ne dovoljuje zapisovanja.";
     IDE_OPEN_NO_SAVE_MSG = "Ali naj odprem program\n ne da bi shranil spremembe tega?";
     IDE_OPEN_NO_SAVE_TIT = "Odprem brez shranjevanja?";
-    IDE_OPEN_NO_FLOPPY_MSG = "Izgleda, da v disketnem pogonu ni diskete. \n \u010Ce je, jo vzemi ven, spet vstavi in spet poskusi odpreti.";
     IDE_OPEN_ERR_TIT = "Napaka pri odpiranju z diskete";
     IDE_NO_PROG_MSG = "Tu trenutno ni programov, ki jih lahko odprem";
     IDE_NO_PROG_TIT = "Ni programov za odpiranje";
@@ -96,7 +88,6 @@ public class JUDO_si extends JUDO_localization {
     IDE_OPEN_PROG_ERR_TIT = "Napaka pri odpiranju programa";
     IDE_NO_PROG_DEL_MSG = "Trenutno tu ni programov, ki jih lahko zbri\u0161em";
     IDE_NO_PROG_DEL_TIT = "Ni programov za brisanje";
-    IDE_DEL_NO_FLOPPY_MSG = "Izgleda, da v disketnem pogonu ni diskete. \n \u010Ce je, jo vzemi ven, spet vstavi in spet poskusi brisati.";
     IDE_DEL_ERR_TIT = "Napaka pri brisanju z diskete";
     IDE_DEL_TIT = "Brisanje programa";
     IDE_NEW_WITHOUT_SAVE_MSG = "Ali naj po\u017Eenem nov program,\n ne da bi shranil spremembe tega?";

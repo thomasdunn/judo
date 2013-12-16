@@ -35,12 +35,8 @@ public class JUDO_id extends JUDO_localization {
     IDE_FILE_NEW = "Baru";
     IDE_FILE_SAVE = "Simpan";
     IDE_FILE_SAVE_NEW_NAME = "Simpan dengan nama baru...";
-    IDE_FILE_SAVE_FLOPPY = "Simpan ke Disket";
-    IDE_FILE_SAVE_FLOPPY_NEW_NAME = "Simpan ke Disket dengan Nama Baru...";
     IDE_FILE_OPEN = "Buka Program...";
-    IDE_FILE_OPEN_FLOPPY = "Buka Program Dari Disket...";
     IDE_FILE_DELETE = "Hapus Program...";
-    IDE_FILE_DELETE_FLOPPY = "Hapus Program Dari Disket...";
     IDE_FILE_EXIT = "Keluar";
 
     IDE_EDIT = "Ubah";
@@ -77,15 +73,11 @@ public class JUDO_id extends JUDO_localization {
     IDE_SAVE_TIT = "Simpan";
     IDE_PROG_EXISTS_MSG = "Program \"%s\" sudah ada. Ditimpa?";
     IDE_PROG_EXISTS_TIT = "Program sudah ada";
-    IDE_NO_FLOPPY_MSG = "Sepertinya tidak terdapat sebuah disket\npada Pemutar Disket. Jika ada, cobalah untuk mengeluarkannya\n, memasukkanya kembali, dan mencoba membuka kembali.";
-    IDE_FLOPPY_ERR_TIT = "Terjadi kesalahan saat menyimpan ke Disket";
-    IDE_FLOPPY_WRITE_PROT_MSG = "Periksalah kalau-kalau Diset diproteksi dari baca tulis.\nLihat di balik disket. Pada sudut kiri-atas,\nterlihat ada bagian kecil yang bisa digerakkan. Dorong sampai pada posisi bawah,\n yaitu ubah ke posisi tersebut jika ia belum berada pada posisi itu dan cobalah untuk menyimpannya lagi.";
     IDE_NO_PROG_DIR_MSG = "Direktori Program tidak ada dan proses pembuatannya tidak bisa dilakukan.";
     IDE_ERR_SAVING_TIT = "Kesalahan dalam menyimpan";
     IDE_PROG_DIR_NOT_WRIT = "Kesalahan dalam menyimpan ke Direktori Program. Tidak bisa ditulis.";
     IDE_OPEN_NO_SAVE_MSG = "Apakah Anda ingin Membuka sebuah Program\nTanpa menyimpan perubahannya pada program yang ini?";
     IDE_OPEN_NO_SAVE_TIT = "Buka tanpa Menyimpan?";
-    IDE_OPEN_NO_FLOPPY_MSG = "Sepertinya tidak terdapat sebuah disket\npada Pemutar Disket. Jika ada, cobalah untuk mengeluarkannya\n, memasukkanya kembali, dan mencoba membukanya kembali.";
     IDE_OPEN_ERR_TIT = "Terjadi kesalahan saat akan membuka dari Disket";
     IDE_NO_PROG_MSG = "Saat ini tidak ada Program yang bisa Dibuka.";
     IDE_NO_PROG_TIT = "Tidak ada Program yang bisa Dibuka";
@@ -94,7 +86,6 @@ public class JUDO_id extends JUDO_localization {
     IDE_OPEN_PROG_ERR_TIT = "Terjadi kesalahan dalam membuka Program";
     IDE_NO_PROG_DEL_MSG = "Saat ini tidak ada Program yang bisa Dihapus";
     IDE_NO_PROG_DEL_TIT = "Tidak ada Program yang bisa Dihapus";
-    IDE_DEL_NO_FLOPPY_MSG = "Sepertinya tidak terdapat sebuah disket\npada Pemutar Disket. Jika ada, cobalah untuk mengeluarkannya\n, memasukkanya kembali, dan mencoba membuka kembali.";
     IDE_DEL_ERR_TIT = "Terjadi kesalahan saat menghapus dari Disket";
     IDE_DEL_TIT = "Hapus Program";
     IDE_NEW_WITHOUT_SAVE_MSG = "Apakah Anda ingin memulai sebuah Program Baru\n tanpa menyimpan perubahan yang Anda lakukan\npada program yang satu ini?";
