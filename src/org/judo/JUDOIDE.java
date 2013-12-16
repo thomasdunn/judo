@@ -61,7 +61,7 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     readConfiguration();
   }
 
-  final static String JUDO_VERSION = "1.3.0";
+  final static String JUDO_VERSION = "1.3.1";
   final static String JUDOAPP_TITLE = "TITLE";
   final static String JUDO_TYPE = "TYPE";
   final static String JUDO_KEY_PREFIX = "$";
