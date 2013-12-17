@@ -37,7 +37,7 @@ Name: "id"; MessagesFile: "C:\code\judo\installer\Indonesian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\code\judo\src\*"; DestDir: "{app}"; Flags: recursesubdirs
+Source: "C:\code\judo\src\*"; Excludes: "MyJUDOPrograms"; DestDir: "{app}"; Flags: recursesubdirs
 Source: "C:\code\judo\properties\judo.en.properties"; DestName: "judo.properties"; DestDir: "{app}"; Languages: en
 Source: "C:\code\judo\properties\judo.si.properties"; DestName: "judo.properties"; DestDir: "{app}"; Languages: si
 Source: "C:\code\judo\properties\judo.es.properties"; DestName: "judo.properties"; DestDir: "{app}"; Languages: es
