@@ -4,15 +4,17 @@ JUDO
 Java IDE for Children and Beginning Programmers
 -----------------------------------------------
 
-JUDO 
+### JUDO website
 
-*[SourceForge project site](http://judo.sourceforge.net/)*
+Downloads, help, news, share programs:  
+
+**http://judo.sourceforge.net/**
 
 ### Binary downloads:
 
-[Windows](http://judo.sourceforge.net/downloads/win/judo-1.3.exe)
-[MacOS X](http://judo.sourceforge.net/macosx.php)
-[Linux](http://judo.sourceforge.net/linux.php)
+[Windows](http://judo.sourceforge.net/downloads.php)  
+[MacOS X](http://judo.sourceforge.net/downloads.php)  
+[Linux](http://judo.sourceforge.net/downloads.php)  
 
 ### Help
 
@@ -47,7 +49,8 @@ by Sun Microsystems, Inc. Binary Code License Agreement.
 
 ### What a JUDO program looks like:
 
-`void main()
+```java
+void main()
 {
 	setBackgroundColor(black);
 
@@ -71,11 +74,12 @@ by Sun Microsystems, Inc. Binary Code License Agreement.
 			}
 		}
 	}
-}`
+}
+```
 
 ![JUDO program code and running program](http://judo.sourceforge.net/images/screenshots/screenshot_smiley.jpg "JUDO program code and running program")
 
-[JUDO function reference](http://judo.sourceforge.net/downloads/JUDOAppAPI.html)
+**[JUDO function reference](http://judo.sourceforge.net/downloads/JUDOAppAPI.html)**
 
 ### Contributing to JUDO
 
