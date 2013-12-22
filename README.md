@@ -20,8 +20,8 @@ Downloads, help, news, share programs:
 
 After running JUDO, go to the Help menu and select Tutorials. There are several topics to read through and learn to get you started writing your own programs.
 
-[General help with installing or running JUDO](http://sourceforge.net/p/judo/discussion/413339/)
-[Help writing programs](http://sourceforge.net/p/judo/discussion/413338/)
+[General help with installing or running JUDO](http://sourceforge.net/p/judo/discussion/413339/)  
+[Help writing programs](http://sourceforge.net/p/judo/discussion/413338/)  
 
 ### Languages
 
