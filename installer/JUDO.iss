@@ -1,6 +1,6 @@
 
 #define MyAppName "JUDO"
-#define MyAppVersion "1.3.1"
+#define MyAppVersion "1.3.2"
 #define MyAppPublisher "Tom Dunn"
 #define MyAppURL "http://judo.sourceforge.net"
 
@@ -29,6 +29,7 @@ Name: "en"; MessagesFile: "compiler:Default.isl"
 Name: "si"; MessagesFile: "C:\code\judo\installer\Slovenian.isl"
 Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "fr"; MessagesFile: "compiler:Languages\French.isl"
+Name: "it"; MessagesFile: "compiler:Languages\Italian.isl"
 Name: "id"; MessagesFile: "C:\code\judo\installer\Indonesian.isl"
 
 [Tasks]
@@ -36,10 +37,12 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "C:\code\judo\src\*"; Excludes: "MyJUDOPrograms"; DestDir: "{app}"; Flags: recursesubdirs
+Source: "C:\code\judo\src\MyJUDOPrograms\helloworld.judo"; DestDir: "{app}\MyJUDOPrograms"; Flags: recursesubdirs
 Source: "C:\code\judo\properties\judo.en.properties"; DestName: "judo.properties"; DestDir: "{app}"; Languages: en
 Source: "C:\code\judo\properties\judo.si.properties"; DestName: "judo.properties"; DestDir: "{app}"; Languages: si
 Source: "C:\code\judo\properties\judo.es.properties"; DestName: "judo.properties"; DestDir: "{app}"; Languages: es
 Source: "C:\code\judo\properties\judo.fr.properties"; DestName: "judo.properties"; DestDir: "{app}"; Languages: fr
+Source: "C:\code\judo\properties\judo.it.properties"; DestName: "judo.properties"; DestDir: "{app}"; Languages: it
 Source: "C:\code\judo\properties\judo.id.properties"; DestName: "judo.properties"; DestDir: "{app}"; Languages: id
 Source: "C:\code\judo\src\README.txt"; DestName: "README.txt"; DestDir: "{app}"; Flags: isreadme
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
