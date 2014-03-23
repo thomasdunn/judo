@@ -25,7 +25,7 @@ After running JUDO, go to the Help menu and select Tutorials. There are several 
 
 ### Languages
 
-JUDO is available in English, Spanish, French, Indonesian, and Slovenian.  If using the Windows installer, language can be selected during installation.  For other operating systems: after unpacking, the language can be selected in `judo.properties`.
+JUDO is available in English, French, Indonesian, Italian, Slovenian, and Spanish.  If using the Windows installer, language can be selected during installation.  For other operating systems: after unpacking, the language can be selected in `judo.properties`.
 
 ### Overview
 

@@ -1,5 +1,5 @@
 JUDO - A Java IDE for Children and Beginning Programmers
-JUDO v1.3 Copyright (C) 2001-2004  Thomas J. Dunn
+JUDO v1.3 Copyright (C) 2001-2014  Thomas J. Dunn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

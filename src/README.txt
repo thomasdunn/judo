@@ -1,5 +1,5 @@
 JUDO - A Java IDE for Children and Beginning Programmers
-JUDO v1.3 Copyright (C) 2001-2004  Thomas J. Dunn
+JUDO v1.3 Copyright (C) 2001-2014  Thomas J. Dunn
 
 
 Running JUDO
@@ -17,7 +17,7 @@ MacOS X
 Unpack JUDO judo-1.3.x.zip file.  Run the Terminal application,
 change to your JUDO directory and run the macosx_run.sh script, ex:
 
-cd /Users/Tom/judo-1.3.1
+cd /Users/Tom/judo-1.3.2
 ./macosx_run.sh
 
 If your Java is not in the expected location, macosx_run.sh may need to be updated.
@@ -33,7 +33,7 @@ http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-dow
 Unpack JUDO judo-1.3.x.zip file.  From a command prompt,
 change to your JUDO directory and run the linux_run.sh script, ex:
 
-cd /home/tom/judo-1.3.1
+cd /home/tom/judo-1.3.2
 ./linux_run.sh
 
 
@@ -50,7 +50,7 @@ Selecting the language
 
 To change language after installation: set judo.language in judo.properties file
 
-# languages: English=en, Spanish=es, French=fr, Indonesian=id, Slovenian=si
+# languages: English=en, French=fr, Indonesian=id, Italian=it, Slovenian=si, Spanish=es
 judo.language=en
 
 
