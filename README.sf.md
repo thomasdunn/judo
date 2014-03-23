@@ -1,6 +1,3 @@
-JUDO
-====
-
 Java IDE for Children and Beginning Programmers
 -----------------------------------------------
 
@@ -8,7 +5,23 @@ Java IDE for Children and Beginning Programmers
 
 Downloads, help, news, share programs:  
 
-**http://judo.sourceforge.net/**
+**[http://judo.sourceforge.net/](http://judo.sourceforge.net/)**
+
+### Releases
+
+**v1.3.2**
+
+* Italian translation
+* Bug fix: Run a program results in "Error: Cannot create file C:\\Program Files (x86)\\JUDO\MyJUDOPrograms\\JUDOApp.java" and Run button becomes disabled
+
+**v.1.3.1**
+
+Many new features, including letting you write programs that read mouse movements, mouse clicks, and keyboard presses. It is also now translated into five languages. Here is what the latest function reference looks like.
+
+* Multiple language support: English, Spanish, French, Slovenian, Indonesian
+* Moved to GitHub - https://github.com/thomasdunn/judo
+* Added new sample program (a game: "Look Out!")
+* Removed file operations for storing to floppy disk.
 
 ### Binary downloads:
 
@@ -25,9 +38,7 @@ After running JUDO, go to the Help menu and select Tutorials. There are several 
 
 ### Languages
 
-JUDO is available in English, French, Indonesian, Italian, Slovenian, and Spanish.  If using the Windows installer, language can be selected during installation.  For other operating systems: after unpacking, the language can be selected in `judo.properties`.
-
-### [Releases](RELEASES.md)
+JUDO is available in English, Spanish, French, Indonesian, and Slovenian.  If using the Windows installer, language can be selected during installation.  For other operating systems: after unpacking, the language can be selected in `judo.properties`.
 
 ### Overview
 
@@ -51,7 +62,6 @@ by Sun Microsystems, Inc. Binary Code License Agreement.
 
 ### What a JUDO program looks like:
 
-```java
 void main()
 {
 	setBackgroundColor(black);
@@ -77,7 +87,7 @@ void main()
 		}
 	}
 }
-```
+
 
 ![JUDO program code and running program](http://judo.sourceforge.net/images/screenshots/screenshot_smiley.jpg "JUDO program code and running program")
 
