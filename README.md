@@ -94,6 +94,6 @@ Developers, if you want to help the children of the world learn to program, cons
 * Right-side, hideable JUDO Function reference UI, perhaps accordion style (in groups of functions: Graphics, I/O, Mouse, Keyboard, etc)
 * Help on documentation
 
-The majority of JUDO development happened back in 2001.  I've come a long way since then :)  JUDO could use some major refactoring or even a rewrite...
+The majority of JUDO development happened way back in 2001.  I've come a long way since then :)  JUDO could use some major refactoring or even a rewrite...
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/33c654eeeea16b351072e05ecb7872dd "githalytics.com")](http://githalytics.com/thomasdunn/judo)
