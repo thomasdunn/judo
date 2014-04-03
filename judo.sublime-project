@@ -9,7 +9,7 @@
 	"folders":
 	[
 		{
-			"path": "src/org/judo"
+			"path": "src/main/java/org/judo"
 		},
 		{
 			"path": "/C/code/JUDO"
