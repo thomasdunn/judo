@@ -12,3 +12,4 @@ src/MyJUDOPrograms
 *.exe
 releases
 website
+/bin
