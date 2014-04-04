@@ -13,3 +13,5 @@ src/MyJUDOPrograms
 releases
 website
 /bin
+/build
+/.gradle
