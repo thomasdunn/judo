@@ -29,7 +29,7 @@ public class JUDO_fr extends JUDO_localization {
   public JUDO_fr() {
     IDE_DEFAULT_PROG_NAME = "Sans titre";
     IDE_SAVE_PROG = "Enregistrer le programme";
-    IDE_ERR_INIT_JAVA = "Erreur d'initialisation de Java, consultez le fichier README.txt livrÈ avec JUDO";
+    IDE_ERR_INIT_JAVA = "Erreur d'initialisation de Java, consultez le fichier README.txt livr√© avec JUDO";
 
     IDE_FILE = "Fichier";
     IDE_FILE_NEW = "Nouveau";
@@ -44,62 +44,62 @@ public class JUDO_fr extends JUDO_localization {
     IDE_EDIT_CUT = "Couper";
     IDE_EDIT_PASTE = "Coller";
     IDE_EDIT_UNDO = "Annuler";
-    IDE_EDIT_GOTO_LINE = "Aller ‡ la ligne...";
+    IDE_EDIT_GOTO_LINE = "Aller √† la ligne...";
 
     IDE_PROG = "Programme";
-    IDE_PROG_PROP = "PropriÈtÈs du programme...";
+    IDE_PROG_PROP = "Propri√©t√©s du programme...";
 
-    IDE_RUN = "ExÈcuter";
-    IDE_RUN_RUN = "ExÈcuter";
+    IDE_RUN = "Ex√©cuter";
+    IDE_RUN_RUN = "Ex√©cuter";
     IDE_RUN_COMPILE = "Compiler";
 
     IDE_HELP = "Aide";
     IDE_HELP_JUDO_HELP = "JUDO Aide";
     IDE_HELP_TUTORIALS = "Tutorials";
-    IDE_HELP_FUNC_REF = "JUDO RÈfÈrence des fonctions";
-    IDE_HELP_COLOR_REF = "RÈfÈrence des valeurs de couleurs";
+    IDE_HELP_FUNC_REF = "JUDO R√©f√©rence des fonctions";
+    IDE_HELP_COLOR_REF = "R√©f√©rence des valeurs de couleurs";
     IDE_HELP_ABOUT_JUDO = "A propos de JUDO";
     IDE_HELP_JUDO_WEBSITE = "Le site web de JUDO";
 
     IDE_BUTTON_RUN = "Action";
 
     IDE_COMPILE_ERR = "Erreur de compilation interne (javac interrompu)";
-    IDE_404_ERR = "Erreur: Fichier %s n'a pas ÈtÈ trouvÈ.";
+    IDE_404_ERR = "Erreur: Fichier %s n'a pas √©t√© trouv√©.";
     IDE_READ_FILE_ERR = "Erreur: Lecture du fichier %s.";
-    IDE_CREATE_FILE_ERR = "Erreur: Fichier %s ne peux pas etre crÈÈ.";
+    IDE_CREATE_FILE_ERR = "Erreur: Fichier %s ne peux pas etre cr√©√©.";
     IDE_EXIT_JUDO_NO_SAVE_MSG = "voulez vous quittr JUDO sans enregistrer ce Programme?";
     IDE_EXIT_NO_SAVE_TIT = "Quitter sans enregistrer?";
     IDE_SAVE_NEW_NAME_TIT = "Enregistrer sous...";
     IDE_SAVE_TIT = "Enregistrer";
-    IDE_PROG_EXISTS_MSG = "Programme \"%s\" existe dÈj‡.  Le remplacer?";
-    IDE_PROG_EXISTS_TIT = "Programme dÈj‡ existant";
-    IDE_NO_PROG_DIR_MSG = "Le rÈpertoire du programme n'existe pas et sa recrÈation a ratÈ.";
+    IDE_PROG_EXISTS_MSG = "Programme \"%s\" existe d√©j√†.  Le remplacer?";
+    IDE_PROG_EXISTS_TIT = "Programme d√©j√† existant";
+    IDE_NO_PROG_DIR_MSG = "Le r√©pertoire du programme n'existe pas et sa recr√©ation a rat√©.";
     IDE_ERR_SAVING_TIT = "Erreur d'enregistrement";
-    IDE_PROG_DIR_NOT_WRIT = "Erreur d'enregistrement du rÈpertoire.  on ne peut pas y Ècrire.";
+    IDE_PROG_DIR_NOT_WRIT = "Erreur d'enregistrement du r√©pertoire.  on ne peut pas y √©crire.";
     IDE_OPEN_NO_SAVE_MSG = "Voulez-vous ouvrir un Programme sans\nenregistrer vos changements sur l'actuel?";
     IDE_OPEN_NO_SAVE_TIT = "Ouvrir sans enregistrer?";
     IDE_OPEN_ERR_TIT = "Erreur en chargeant de la disquette";
-    IDE_NO_PROG_MSG = "Il n'y a pas de programmes ‡ ouvrir";
-    IDE_NO_PROG_TIT = "Pas de programmes ‡ ouvrir";
+    IDE_NO_PROG_MSG = "Il n'y a pas de programmes √† ouvrir";
+    IDE_NO_PROG_TIT = "Pas de programmes √† ouvrir";
     IDE_OPEN_TIT = "Ouvrir Programme";
     IDE_OPEN_PROG_MSG = "Une erreur est survenue durant l'ouverture du Programme \"%s\"";
     IDE_OPEN_PROG_ERR_TIT = "Erreur durant l'ouverture du Programme";
-    IDE_NO_PROG_DEL_MSG = "Il n'y a pas de programmes ‡ effacer";
-    IDE_NO_PROG_DEL_TIT = "=Pas de Programmes ‡ effacer";
+    IDE_NO_PROG_DEL_MSG = "Il n'y a pas de programmes √† effacer";
+    IDE_NO_PROG_DEL_TIT = "=Pas de Programmes √† effacer";
     IDE_DEL_ERR_TIT = "Erreur d'effacement de la disquette";
     IDE_DEL_TIT = "Effacer le Programme";
-    IDE_NEW_WITHOUT_SAVE_MSG = "Voulez-vous dÈmarrer und nouveau programme sans \nenregistrer les changements sur l'actuel?";
+    IDE_NEW_WITHOUT_SAVE_MSG = "Voulez-vous d√©marrer und nouveau programme sans \nenregistrer les changements sur l'actuel?";
     IDE_NEW_WITHOUT_SAVE_TIT = "Nouveau Programme sans enregistrer?";
-    IDE_GOTO_LINE_NUM_MSG = "Aller au numÈro de ligne";
-    IDE_GOTO_LINE_NUM_TIT = "Aller au numÈro de ligne";
-    IDE_LINE_NUM_GREATER_MSG = "numÈro de ligne doit etre plus grand ou Ègal ‡ 1";
-    IDE_INV_LINE_NUM_TIT = "numÈro de ligne pas valable";
+    IDE_GOTO_LINE_NUM_MSG = "Aller au num√©ro de ligne";
+    IDE_GOTO_LINE_NUM_TIT = "Aller au num√©ro de ligne";
+    IDE_LINE_NUM_GREATER_MSG = "num√©ro de ligne doit etre plus grand ou √©gal √† 1";
+    IDE_INV_LINE_NUM_TIT = "num√©ro de ligne pas valable";
     IDE_LINE_COUNT_MSG = "Il y a seulement %s lignes dans le Programme";
-    IDE_NO_LINE_NUM_MSG = "Vous n'avez pas donner de numÈro de ligne";
-    IDE_LINE_NUM_INV_MSG = "numÈro de ligne %s n'est pas valable.";
+    IDE_NO_LINE_NUM_MSG = "Vous n'avez pas donner de num√©ro de ligne";
+    IDE_LINE_NUM_INV_MSG = "num√©ro de ligne %s n'est pas valable.";
 
-    IDE_VAR_VAL_DEC_ASS_TIT = "Variables, Valeurs, DÈclarations, et Assignements";
-    IDE_JUDO_ABOUT_MSG = "JUDO - Un IDE java pour les programmeurs dÈbutants\nhttp://judo.sourceforge.net\nVersion: %s\n\nJUDO, Copyright (C) 2001-2003 Thomas J. Dunn";
+    IDE_VAR_VAL_DEC_ASS_TIT = "Variables, Valeurs, D√©clarations, et Assignements";
+    IDE_JUDO_ABOUT_MSG = "JUDO - Un IDE java pour les programmeurs d√©butants\nhttp://judo.sourceforge.net\nVersion: %s\n\nJUDO, Copyright (C) 2001-2003 Thomas J. Dunn";
 
     CER_STRING_MISSING_QUOTE = "String missing a \"";
     CER_EMPTY_CHAR = "Empty character%sDid you mean to use a double-quote character and not two single-quote characters?";

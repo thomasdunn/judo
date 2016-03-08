@@ -47,7 +47,7 @@ public class JUDO_it extends JUDO_localization {
     IDE_EDIT_GOTO_LINE = "Vai alla Linea...";
 
     IDE_PROG = "Programma";
-    IDE_PROG_PROP = "Propriet‡...";
+    IDE_PROG_PROP = "Propriet√†...";
 
     IDE_RUN = "Avvia";
     IDE_RUN_RUN = "Avvia";
@@ -71,9 +71,9 @@ public class JUDO_it extends JUDO_localization {
     IDE_EXIT_NO_SAVE_TIT = "Esci senza Salvare?";
     IDE_SAVE_NEW_NAME_TIT = "Salva con un nuovo nome";
     IDE_SAVE_TIT = "Salva";
-    IDE_PROG_EXISTS_MSG = "Il Programma \"%s\" esiste gi‡.  Sovrascriverlo?";
+    IDE_PROG_EXISTS_MSG = "Il Programma \"%s\" esiste gi√†.  Sovrascriverlo?";
     IDE_PROG_EXISTS_TIT = "Programma esistente";
-    IDE_NO_PROG_DIR_MSG = "Cartella inesistente e la sua creazione Ë fallita.";
+    IDE_NO_PROG_DIR_MSG = "Cartella inesistente e la sua creazione √® fallita.";
     IDE_ERR_SAVING_TIT = "Errore di salvataggio";
     IDE_PROG_DIR_NOT_WRIT = "Errore di Salvataggio.  Impossibile scrivere su disco.";
     IDE_OPEN_NO_SAVE_MSG = "Vuoi aprire un nuovo programma senza\nsalvare i cambiamenti ?";
@@ -81,7 +81,7 @@ public class JUDO_it extends JUDO_localization {
     IDE_NO_PROG_MSG = "Non ci sono programmi da aprire";
     IDE_NO_PROG_TIT = "Nessun programma aperto";
     IDE_OPEN_TIT = "Apri programma";
-    IDE_OPEN_PROG_MSG = "Si Ë verificato un errore in apertura \"%s\"";
+    IDE_OPEN_PROG_MSG = "Si √® verificato un errore in apertura \"%s\"";
     IDE_OPEN_PROG_ERR_TIT = "Errore di apertura";
     IDE_NO_PROG_DEL_MSG = "Non ci sono programmi da cancellare";
     IDE_NO_PROG_DEL_TIT = "Nessun programma eliminato";
@@ -94,7 +94,7 @@ public class JUDO_it extends JUDO_localization {
     IDE_INV_LINE_NUM_TIT = "Numero di linea non valido";
     IDE_LINE_COUNT_MSG = "Ci sono %s linee di codice in questo programma";
     IDE_NO_LINE_NUM_MSG = "Inserisci un numero di linea";
-    IDE_LINE_NUM_INV_MSG = "Il numero di linea %s non Ë valido.";
+    IDE_LINE_NUM_INV_MSG = "Il numero di linea %s non √® valido.";
 
     IDE_VAR_VAL_DEC_ASS_TIT = "Variabili, Valori, Dichiarazioni, e Assegnazioni";
     IDE_JUDO_ABOUT_MSG = "JUDO - A Java IDE for Beginning Programmers\nhttp://judo.sourceforge.net\nVersion: %s\n\nJUDO, Copyright (C) 2001-2003 Thomas J. Dunn";
@@ -123,7 +123,7 @@ public class JUDO_it extends JUDO_localization {
     OPN_OK = "OK";
     OPN_CANCEL = "Cancella";
 
-    PRP_CHOOSE_PROG_PROP = "Scegli le propriet‡ per questo programma";
+    PRP_CHOOSE_PROG_PROP = "Scegli le propriet√† per questo programma";
     PRP_GRAPHICS = "Grafica";
     PRP_TEXT = "Testo";
     PRP_TEXT_AND_GRAPHICS = "Testo e Grafica";
@@ -140,14 +140,14 @@ public class JUDO_it extends JUDO_localization {
     SAV_TYPE_PROG_NAME_TIT = "Nessun nome inserito";
     SAV_ONLY_NUM_LET_SPACE_MSG = "Usa solo lettere, numeri e spazi per il nome del programma";
     SAV_INV_PROG_NAME = "Nome del programma non valido";
-    SAV_NO_SAV_PROG_WITH_NUM_MSG = "Il nome del programma non puÚ iniziare con un numero";
+    SAV_NO_SAV_PROG_WITH_NUM_MSG = "Il nome del programma non pu√≤ iniziare con un numero";
 
 
-    IDE_DELETE_PROG_MSG = "Si Ë verificato un errore all'eliminazione del programma \"%s\"";
+    IDE_DELETE_PROG_MSG = "Si √® verificato un errore all'eliminazione del programma \"%s\"";
     IDE_DELETE_PROG_ERR_TIT = "Errore di eliminazione del programma";
     IDE_OPEN_SAMPLE_CONFIRM_MSG = "Vuoi aprire un esempio senza\nsalvare i cambiamenti?";
     IDE_OPEN_SAMPLE_CONFIRM_TIT = "Aprire un esempio senza salvare?";
-    APP_EXCEPTION_OCCURED = "Si Ë verificato un errore a Runtime";
+    APP_EXCEPTION_OCCURED = "Si √® verificato un errore a Runtime";
     IDE_EDIT_REDO = "Ripeti";
     IDE_EDIT_SELECT_ALL = "Seleziona tutto";
     IDE_FILE_OPEN_SAMPLE = "Apri Esempio...";
