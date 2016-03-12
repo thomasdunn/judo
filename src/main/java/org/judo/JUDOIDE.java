@@ -59,6 +59,7 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   public static JUDO_localization lz;
   static {
     readConfiguration();
+    initiateLocalization();
   }
 
   final static String JUDO_VERSION = "1.3.1";
@@ -304,13 +305,18 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     return true;
   }
 
+  /**
+   * TODO Need to refactor judo.properties loading/reading/user writing as it is not included in the .jar .
+   */
   private static void readConfiguration() {
     readConfigurationFile("judo.properties"); // the main installation configuration
     readConfigurationFile(System.getProperty("user.home") + pathSeparator + ".judo.properties"); // configuration for local user
   }
 
   private static void readConfigurationFile(String file) {
-    if ((new File(file)).exists()) {
+    if (!(new File(file)).exists()) {
+      judoLanguage = "en";
+    } else {
       Properties prop = new Properties();
       try {
         prop.load(new FileInputStream(file));
@@ -336,17 +342,25 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
         // default to english
         judoLanguage = "en";
       }
-
-      // localization
-      try {
-        Class lzClass = Class.forName("org.judo.JUDO_" + judoLanguage);
-        lz = (JUDO_localization) lzClass.newInstance();
-      }
-      catch (Exception e) {
-        e.printStackTrace();
-        System.out.println("Reflection error in JUDOIDE when creating localization object: " + e.toString());
-      }
     }
+  }
+
+  /**
+   * initateLocalization
+   * This creates the static variable responsible for providing translations of JUDO.
+   * Requires the judoLanguage variable to be defined.
+   */
+  private static void initiateLocalization() {
+    // localization
+    try {
+      Class lzClass = Class.forName("org.judo.JUDO_" + judoLanguage);
+      lz = (JUDO_localization) lzClass.newInstance();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("Reflection error in JUDOIDE when creating localization object: " + e.toString());
+    }
+
   }
 
   private void buildGUI() {
