@@ -10,4 +10,14 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
+jar {
+   manifest {
+      attributes(
+         "Manifest-Version": "1.0",
+         "Class-Path": configurations.compile.collect { it.getName() }.join(' '),
+         "Main-Class": "org.judo.JUDOIDE"
+      )
+   }
+}
+
 test
