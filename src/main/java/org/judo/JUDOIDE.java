@@ -76,9 +76,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   final static int JUDO_IDE_WIDTH = 600;
   final static int JUDO_IDE_HEIGHT = 400;
 
-  final static int JUDO_APP = 0;
-  final static int JUDO_APPLET = 1;
-
   int appHeight = JUDOBase.jud0_APP_HEIGHT_TEXT;
   int appWidth = JUDOBase.jud0_APP_WIDTH;
   int appRows = JUDOBase.jud0_APP_TEXT_ROWS;
@@ -100,9 +97,7 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   String deleteIconFilename = "Delete24.gif";
   String judoIconFilename = "judo16.gif";
   String judoAppTemplateFilename = "JUDOApp.template";
-  String judoAppletTemplateFilename = "JUDOApplet.template";
   String judoAppJavaFilename = "JUDOApp.java";
-  String judoAppletJavaFilename = "JUDOApplet.java";
   String extension = "judo";
   String titlePrefix = " JUDO - ";
 
@@ -169,9 +164,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   JMenuItem gotoLineMenuItem;
   JMenuItem redoMenuItem;
   JMenuItem selectAllMenuItem;
-
-  JMenu programMenu;
-  JMenuItem appletWizardMenuItem;
 
   JMenu helpMenu;
   JMenuItem tutorialsMenuItem;
@@ -423,12 +415,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     selectAllMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
     selectAllMenuItem.addActionListener(this);
 
-//    programMenu = new JMenu(lz.IDE_PROG);
-//    programMenu.setMnemonic('p');
-//    appletWizardMenuItem = new JMenuItem("Applet Wizard...");
-//    appletWizardMenuItem.setMnemonic('a');
-//    appletWizardMenuItem.addActionListener(this);
-
     helpMenu = new JMenu(lz.IDE_HELP);
     helpMenu.setMnemonic('h');
     tutorialsMenuItem = new JMenuItem(lz.IDE_HELP_TUTORIALS, KeyEvent.VK_T);
@@ -474,8 +460,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     editMenu.addSeparator();
     editMenu.add(selectAllMenuItem);
     editMenu.add(gotoLineMenuItem);
-
-//    menuBar.add(programMenu);
 
     menuBar.add(helpMenu);
     helpMenu.add(tutorialsMenuItem);
@@ -574,7 +558,7 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
 
     // only (re)compile if necessary
     if (isError()) {
-      compileCode(JUDOIDE.JUDO_APP);
+      compileCode();
     }
 
     // only run java if there were no errors (output in output text area)
@@ -603,18 +587,12 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   /**
    * Compiles the code of the JUDOApp
    */
-  void compileCode(int appOrApplet) {
+  void compileCode() {
 
     // let user know we are compiling
     displayOutput("");
 
-    String filename = codeBase + pathSeparator + packagePath + pathSeparator;
-    if (appOrApplet == JUDOIDE.JUDO_APP) {
-      filename += judoAppTemplateFilename;
-    }
-    else {
-      filename += judoAppletTemplateFilename;
-    }
+    String filename = codeBase + pathSeparator + packagePath + pathSeparator + judoAppTemplateFilename;
 
     String programCode = getFileText(filename, true);
     String bodyCode = codeTextArea.getText();
@@ -641,14 +619,7 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     setTemplateKey("bodyCode", bodyCode);
     programCode = buildCodeFromTemplate(programCode);
 
-//    filename = codeBase + pathSeparator + packagePath + pathSeparator;
-    filename = judoProgramDir + pathSeparator;
-    if (appOrApplet == JUDOIDE.JUDO_APP) {
-      filename += judoAppJavaFilename;
-    }
-    else {
-      filename += judoAppletJavaFilename;
-    }
+    filename = judoProgramDir + pathSeparator + judoAppJavaFilename;
 
     putFileText(filename, programCode);
 
@@ -1381,9 +1352,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     }
     else if (ae.getSource() == newMenuItem) {
       newProgram();
-    }
-    else if (ae.getSource() == appletWizardMenuItem) {
-      compileCode(JUDOIDE.JUDO_APPLET);
     }
     else if (ae.getSource() == gotoLineMenuItem) {
       String lineNumberString = JOptionPane.showInputDialog(this, lz.IDE_GOTO_LINE_NUM_MSG,
