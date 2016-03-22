@@ -29,8 +29,6 @@ import javax.swing.event.*;
 import java.net.URL;
 import javax.swing.undo.*;
 import javax.swing.text.Document;
-import java.nio.file.Paths;
-import java.nio.file.Path;
 
 /**
  * The main class of the IDE.  Everything is controlled via the action of the controls in this window.
@@ -50,17 +48,16 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   // for interpolating vars in String for localization
   public static JUDOUtils ju = new JUDOUtils();
 
-  // the localization language
-  static String judoLanguage;
   static String judoProgramDir;
-  static String userHomeDirKey = "$HOME";
 
   static String programDirectory = "MyJUDOPrograms";
   String helpSamplesDir = "docs" + pathSeparator + "helpsamples";
   
   public static JUDO_localization lz;
   static {
-    readConfiguration();
+    JUDOConfig.loadConfig();
+    judoProgramDir = JUDOConfig.getJUDOProgramDir();
+
     initiateLocalization();
   }
 
@@ -300,57 +297,12 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   }
 
   /**
-   * TODO Need to refactor judo.properties loading/reading/user writing as it is not included in the .jar .
-   */
-  private static void readConfiguration() {
-    readConfigurationFile("judo.properties"); // the main installation configuration
-
-    // Load configuration file from local user's home folder.
-    String localUserConfigPath = Paths.get(System.getProperty("user.home"), ".judo.properties").toString();
-    readConfigurationFile(localUserConfigPath);
-  }
-
-  private static void readConfigurationFile(String file) {
-    if (!(new File(file)).exists()) {
-      judoLanguage = "en";
-    } else {
-      Properties prop = new Properties();
-      try {
-        prop.load(new FileInputStream(file));
-        judoLanguage = prop.getProperty("judo.language");
-        if (judoLanguage == null) {
-          judoLanguage = "en";
-        }
-
-        judoProgramDir = prop.getProperty("judo.programdir");
-        if (judoProgramDir != null) {
-          int homeIndex = judoProgramDir.indexOf(userHomeDirKey);
-          if (homeIndex != -1) {
-            StringBuffer progDirBuffer = new StringBuffer(judoProgramDir);
-            progDirBuffer.replace(homeIndex, homeIndex + userHomeDirKey.length(), System.getProperty("user.home"));
-            judoProgramDir = progDirBuffer.toString();
-          }
-        }
-        else {
-          judoProgramDir = System.getProperty("user.dir") + pathSeparator + programDirectory;
-        }
-      }
-      catch (IOException ioe) {
-        // default to english
-        judoLanguage = "en";
-      }
-    }
-  }
-
-  /**
-   * initateLocalization
    * This creates the static variable responsible for providing translations of JUDO.
-   * Requires the judoLanguage variable to be defined.
    */
   private static void initiateLocalization() {
-    // localization
+    
     try {
-      Class lzClass = Class.forName("org.judo.JUDO_" + judoLanguage);
+      Class lzClass = Class.forName("org.judo.JUDO_" + JUDOConfig.getJUDOLanguage());
       lz = (JUDO_localization) lzClass.newInstance();
     }
     catch (Exception e) {
