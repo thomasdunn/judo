@@ -29,6 +29,8 @@ import javax.swing.event.*;
 import java.net.URL;
 import javax.swing.undo.*;
 import javax.swing.text.Document;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 
 /**
  * The main class of the IDE.  Everything is controlled via the action of the controls in this window.
@@ -55,7 +57,7 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
 
   static String programDirectory = "MyJUDOPrograms";
   String helpSamplesDir = "docs" + pathSeparator + "helpsamples";
-
+  
   public static JUDO_localization lz;
   static {
     readConfiguration();
@@ -302,7 +304,10 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
    */
   private static void readConfiguration() {
     readConfigurationFile("judo.properties"); // the main installation configuration
-    readConfigurationFile(System.getProperty("user.home") + pathSeparator + ".judo.properties"); // configuration for local user
+
+    // Load configuration file from local user's home folder.
+    String localUserConfigPath = Paths.get(System.getProperty("user.home"), ".judo.properties").toString();
+    readConfigurationFile(localUserConfigPath);
   }
 
   private static void readConfigurationFile(String file) {
