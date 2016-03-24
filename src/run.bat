@@ -1,1 +1,0 @@
-jdk1.3\bin\java.exe org.judo.JUDOIDE

@@ -1,1 +1,0 @@
-/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home/bin/java -cp . org.judo.JUDOIDE

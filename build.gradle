@@ -1,4 +1,25 @@
+/**
+ * To be able to run JUDO, it needs to have a distributable environment (for now,
+ * at least.) So to develop on JUDO and thus test and run JUDO, you need to
+ * install the JUDO distribution and run the JUDO binary.
+ *
+ * How to install JUDO:
+ *   gradle installDist
+ *
+ * How to run JUDO binary:
+ *   ./build/install/judo/bin/judo
+ *
+ * In order to publicly distribute the JUDO executable in the future, you must
+ * compress JUDO files into a .zip or .tar. This is done as follows:
+ *   gradle distZip
+ *     or
+ *   gradle distTar
+ *
+ * Then check the build/distributions directory for the distribution .zip or .tar .
+ */
+
 apply plugin: 'java'
+apply plugin: 'application'
 
 compileJava.options.encoding = 'Cp1252'
 
@@ -19,5 +40,8 @@ jar {
       )
    }
 }
+
+// Used for the application plugin.
+mainClassName = "org.judo.JUDOIDE"
 
 test
