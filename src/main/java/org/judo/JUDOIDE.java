@@ -68,8 +68,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   final static String JUDO_PROP_COMMENT = "//~JUDOPROP~//";
   final static String JUDO_MAIN_STRING = "//<judomain>";
 
-//  final static int HELP_WINDOW_WIDTH = 590;
-//  final static int HELP_WINDOW_HEIGHT = 375;
   final static int HELP_WINDOW_WIDTH = 600;
   final static int HELP_WINDOW_HEIGHT = 420;
   final static int JUDO_IDE_WIDTH = 600;
@@ -963,6 +961,8 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
 
   // if programOrSample == true, it is from the program dir
   // if programOrSample == false, it is from the samples dir
+  // 
+  // Note that defaultLocation is never accessed in this function.
   HashMap getProgramNames(boolean programOrSample, boolean defaultLocation) {
     String basePath = "";
     Vector programVector = new Vector();
@@ -1110,7 +1110,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     if (openDialog.canceled()) {
       return false;
     }
-    //lastProgramName = programName;
 
     // set error because we are opening new program, and if user hits run
     // we want it to recompile

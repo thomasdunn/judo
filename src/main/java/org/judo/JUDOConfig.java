@@ -20,7 +20,18 @@ public class JUDOConfig {
 
   private static final String USER_CONFIG_NAME = ".judo.properties";
   private static final String USER_CONFIG_PATH = Paths.get(System.getProperty("user.home"), USER_CONFIG_NAME).toString();
+
+  /**
+   * If found in the judo.programdir string, this is replaced with
+   * the user.home Java System property.
+   */
   private static final String CONFIG_HOME_SYMBOL = "$HOME";
+
+  /**
+   * If found in the judo.programdir string, this is replaced with
+   * the root directory of the JUDO distribution.
+   */
+  private static final String CONFIG_DISTDIR_SYMBOL = "$DISTDIR";
   
   // This refers to a location inside the JAR.
   private static final String DEFAULT_CONFIG_LOCATION = "defaultJudoConfig.properties";
@@ -48,14 +59,8 @@ public class JUDOConfig {
 
     loadUserConfig();
 
-    String judoProgramDir = properties.getProperty("judo.programdir");
-
-    // If judo.programdir contains CONFIG_HOME_SYMBOL (usually "$HOME"), we need to insert it's value
-    // into judoProgramDir.
-    if (judoProgramDir != null && judoProgramDir.contains(CONFIG_HOME_SYMBOL)) {
-      String expandedJudoProgramDir = judoProgramDir.replace(CONFIG_HOME_SYMBOL, System.getProperty("user.home"));
-      properties.setProperty("judo.programdir", expandedJudoProgramDir);
-    }
+    // Expand the config variables found in the judo.programdir String and save them back into the Properties instance.
+    properties.setProperty("judo.programdir", expandConfigVariables(properties.getProperty("judo.programdir")));
   }
 
   /**
@@ -83,6 +88,38 @@ public class JUDOConfig {
       System.out.println("Error reading user configuration file.");
       ioException.printStackTrace();
     }
+  }
+
+  /**
+   * Find instances of configuration variables ("$HOME" and "$DISTDIR") and replace them with their corresponding system value.
+   * $DISTDIR is determined as two directory levels upward from the location of the JUDO jar containing the JUDO classes.
+   * /Users/<user>/dev/judo/build/install/judo/lib/judo.jar/../../ , or simply /Users/<user>/dev/judo/build/install/judo/ .
+   * @param  rawJudoProgramDir The judoProgramDir String with variables embedded.
+   * @return                   The same judoProgramDir, but with system-provided values for the config variables.
+   */
+  private static String expandConfigVariables(String rawJudoProgramDir) {
+
+    if (rawJudoProgramDir == null) {
+      return null;
+    }
+
+    String expandedJudoProgramDir = rawJudoProgramDir;
+
+    if (expandedJudoProgramDir.contains(CONFIG_HOME_SYMBOL)) {
+      expandedJudoProgramDir = expandedJudoProgramDir.replace(CONFIG_HOME_SYMBOL, System.getProperty("user.home"));
+    }
+
+    if (expandedJudoProgramDir.contains(CONFIG_DISTDIR_SYMBOL)) {
+
+      // codeSourceLocation is something like /Users/<user>/dev/judo/build/install/judo/lib/judo.jar
+      // judoDistributionDir needs to be just /Users/<user>/dev/judo/build/install/judo/
+      String codeSourceLocation = System.getProperty("java.class.path");
+      String judoDistributionDir = Paths.get(codeSourceLocation, "../..").normalize().toString();
+
+      expandedJudoProgramDir = expandedJudoProgramDir.replace(CONFIG_DISTDIR_SYMBOL, judoDistributionDir);
+    }
+
+    return expandedJudoProgramDir;
   }
 
   public static String getJUDOProgramDir() {
