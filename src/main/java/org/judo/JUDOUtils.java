@@ -20,6 +20,8 @@
 package org.judo;
 
 import java.util.Vector;
+import java.io.FilenameFilter;
+import java.io.File;
 
 /**
  * Has utility methods.  Includes getString used in localization
@@ -55,6 +57,22 @@ public class JUDOUtils {
       }
     }
   }
+  
+  static class JUDOProgramFilenameFilter implements FilenameFilter {
+    public boolean accept(File dir, String name) {
+      return name.endsWith(".judo");
+    }
+  }
+
+  private static JUDOProgramFilenameFilter judoProgramFilenameFilter;
+  public static JUDOProgramFilenameFilter getJUDOProgramFilenameFilter() {
+    if (judoProgramFilenameFilter == null) {
+      judoProgramFilenameFilter = new JUDOProgramFilenameFilter();
+    }
+
+    return judoProgramFilenameFilter;
+  }
+
   //  public String getString(String source, String var1, String var2, String var3) {return "";}
   //  public String getString(String source, String var1, String var2, String var3, String var4) {return "";}
   //  public String getString(String source, String var1, String var2, String var3, String var4, String var5) {return "";}

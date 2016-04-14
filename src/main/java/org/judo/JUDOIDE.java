@@ -36,7 +36,7 @@ import javax.swing.text.Document;
  * @author Thomas Dunn
  * @version 1.3
  */
-public class JUDOIDE extends JFrame implements ActionListener, WindowListener, DocumentListener, FilenameFilter {
+public class JUDOIDE extends JFrame implements ActionListener, WindowListener, DocumentListener {
 
   /////////////////////////////////////////////////////////////////////////
   // CLASS AND MEMBER DATA
@@ -62,10 +62,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   }
 
   final static String JUDO_VERSION = "1.3.1";
-  final static String JUDOAPP_TITLE = "TITLE";
-  final static String JUDO_TYPE = "TYPE";
-  final static String JUDO_KEY_PREFIX = "$";
-  final static String JUDO_PROP_COMMENT = "//~JUDOPROP~//";
   final static String JUDO_MAIN_STRING = "//<judomain>";
 
   final static int HELP_WINDOW_WIDTH = 600;
@@ -102,10 +98,14 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   protected String defaultProgramName = lz.IDE_DEFAULT_PROG_NAME;
   String programName = defaultProgramName;
   String lastProgramName = "";
+
+  // This (by examination) is equivalent to !isDirty
   boolean lastSaveDefault = true;
 
-  // Headers to put at the top of users program
-  HashMap headerMap;
+  // TODO Should be private
+  public JUDOCompiler judoCompiler;
+  private JUDOProgram userProgram;
+  private JUDOProgramManager judoProgramManager;
 
   // key/value pairs for interpolating in template
   HashMap templateMap;
@@ -132,12 +132,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   String javaString;
 
   String classpath;
-
-  // number of lines in the header code - for offset in error messages
-  int headerLines;
-
-  // if there was an error in compilation
-  boolean error = true;
 
   ///////////////////
   // GUI COMPONENTS
@@ -197,8 +191,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     setTitle(titlePrefix + defaultProgramName);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     templateMap = new HashMap();
-    headerMap = new HashMap();
-    headerMap.put("VERSION", JUDO_VERSION);
 
     if (((String) System.getProperty("os.name")).startsWith("Windows")) {
       isWindows = true;
@@ -223,6 +215,9 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
 
     // install undo manager instance as listener for undoable edits
     codeTextArea.getDocument().addUndoableEditListener(undoManager);
+
+    judoCompiler = new JUDOCompiler(this);
+    judoProgramManager = new JUDOProgramManager();
   }
 
   void displayErrorPane() {
@@ -296,6 +291,16 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
 
   /**
    * This creates the static variable responsible for providing translations of JUDO.
+   * 
+   * TODO I believe this creates a security hole. If a malicious user inserted a class into a JAR
+   * with the name of org.judo.JUDO_MY_LANG and specified in the .properties file that the language
+   * was "MY_LANG", the JUDO_MY_LANG class would be treated in JUDO as trusted code, but could contain
+   * whatever the attacker wants.
+   *
+   * This hole is not insignificant because a malicious user could then distribute the corrupted JUDO
+   * JAR, performing malicious payloads under the trust that people have in JUDO.
+   *
+   * The solution would be to whitelist the interpretation of the .properties file.
    */
   private static void initiateLocalization() {
     
@@ -503,219 +508,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   ///////////////////////////////////////////////////////////////////////
   // THE FOLLOWING METHODS DEAL WITH COMPILING THE USERS SOURCE
   // AND RUNNING IT
-  /**
-   * Runs the compiled source code of a JUDOApp
-   */
-  void runCode() {
-
-    // they just hit run, dont let them do it again till running is done.
-    enableRun(false);
-
-    // only (re)compile if necessary
-    if (isError()) {
-      compileCode();
-    }
-
-    // only run java if there were no errors (output in output text area)
-    if (! isError()) {
-      Command java = null;
-
-      if (isWindows) {
-        java = new Command(javaString +
-                           " -classpath \"" + judoProgramDir + ";" + classpath + "\" " +
-                           "JUDOApp",
-                           this, false);
-      }
-      else {
-        java = new Command(javaString +
-                           " -classpath " + judoProgramDir + ":" + classpath + " " +
-                           "JUDOApp",
-                            this, false);
-      }
-      Thread javaThread = new Thread(java);
-      javaThread.start();
-    }
-
-    enableRun(true);
-  }
-
-  /**
-   * Compiles the code of the JUDOApp
-   */
-  void compileCode() {
-
-    // let user know we are compiling
-    displayOutput("");
-
-    String filename = codeBase + pathSeparator + packagePath + pathSeparator + judoAppTemplateFilename;
-
-    String programCode = getFileText(filename, true);
-    String bodyCode = codeTextArea.getText();
-
-    determineProgramType(bodyCode);
-
-    String type = (String) headerMap.get(JUDO_TYPE);
-    if (type == null) {
-      type = JUDOBase.jud0_TYPE_TEXT;
-    }
-    setJUDOAppDimensions(type);
-    setTemplateKey("appRows", "" + appRows);
-    setTemplateKey("appHeight", "" + appHeight);
-    setTemplateKey("appWidth", "" + appWidth);
-    setTemplateKey("appType", type);
-    setTemplateKey("headerLines", "" + this.getHeaderLines());
-    if (! type.equals(JUDOBase.jud0_TYPE_TEXT)) {
-      setTemplateKey("initGraphics", "true");
-    }
-    else {
-      setTemplateKey("initGraphics", "false");
-    }
-    setTemplateKey("programName", programName);
-    setTemplateKey("bodyCode", bodyCode);
-    programCode = buildCodeFromTemplate(programCode);
-
-    filename = judoProgramDir + pathSeparator + judoAppJavaFilename;
-
-    putFileText(filename, programCode);
-
-    // compile the code with javac
-    Command javac = null;
-
-    // if we are on windows, we need double quotes around filenames
-    if (isWindows) {
-      javac = new Command(javacString +
-                                  " -classpath \"" + classpath + "\" \"" +
-                                  filename + "\"",
-                                  this, true);
-    }
-    // not windows
-    else {
-      javac = new Command(javacString +
-                                  " -classpath " + classpath + " " +
-                                  filename,
-                                  this, true);
-    }
-
-    Thread javacThread = new Thread(javac);
-    javacThread.start();
-
-    try {
-      javacThread.join();
-    } catch (InterruptedException ie) {
-      displayOutput(lz.IDE_COMPILE_ERR);
-    }
-  }
-
-  void checkForCall(String code, String functionName, boolean graphicsCall) {
-    if (code.indexOf(functionName) != -1) {
-      if (graphicsCall) {
-        hasGraphics = true;
-      }
-      else {
-        hasText = true;
-      }
-    }
-  }
-
-  /**
-   * Gets the text of a file (NOTE: max length of file is hardcoded)
-   * @param filename the absolute path to the file to read in
-   * @param isHeader whether the file is the code header or not
-   * @return a string with the contents of the file, or null on error
-   */
-  String getFileText(String filename, boolean isHeader) {
-    BufferedReader codeReader = null;
-
-    // open the file
-    try {
-      codeReader = new BufferedReader(new FileReader(filename));
-    }
-    catch (FileNotFoundException fnfe) {
-      displayOutput(ju.getString(lz.IDE_404_ERR, filename));
-    }
-
-    // get the code
-    try {
-      String line = "";
-      String code = "";
-
-      if (isHeader)
-        headerLines = 0;
-
-      while ((line = codeReader.readLine()) != null) {
-        if (line.indexOf(JUDO_MAIN_STRING) != -1) {
-          isHeader = false;
-          headerLines++;
-        }
-        code += "\n" + line;
-        if (isHeader)
-          headerLines++;
-      }
-
-      if (isHeader)
-        setHeaderLines(headerLines);
-
-      codeReader.close();
-      return code;
-    } catch (IOException ioe) {
-      displayOutput(ju.getString(lz.IDE_READ_FILE_ERR, filename));
-    }
-    return null;
-  }
-
-  /**
-   * Writes the given text to a file
-   * @param filename the absolute path to the file to write out
-   * @param text the text to write to the file
-   * @return true on success, false on error
-   */
-  boolean putFileText(String filename, String text) {
-
-    PrintWriter codeWriter = null;
-
-    // open the file
-    try {
-      codeWriter = new PrintWriter(new BufferedWriter(new FileWriter(new File(filename))));
-    }
-    catch (IOException ioe) {
-      displayOutput(ju.getString(lz.IDE_CREATE_FILE_ERR, filename));
-    }
-
-    // write out the code
-    codeWriter.print(text);
-    codeWriter.close();
-    return true;
-  }
-
-  String buildCodeFromTemplate(String templateCode) {
-    String key = "";
-    String val = "";
-    Set keys = templateMap.keySet();
-    Iterator keyIterator = keys.iterator();
-    while (keyIterator.hasNext()) {
-      key = (String) keyIterator.next();
-      val = (String) templateMap.get(key);
-      templateCode = replaceTemplateKey(templateCode, key, val);
-    }
-    return templateCode;
-  }
-
-  void setTemplateKey(String key, String value) {
-    templateMap.put(key, value);
-  }
-
-  String replaceTemplateKey(String templateCode, String key, String value) {
-    key = templateKeyPrefix + key + templateKeySuffix;
-    int index;
-    while ((index = templateCode.indexOf(key)) != -1) {
-      String newCode = templateCode.substring(0, index) + value;
-      if (templateCode.length() - 1 >= index + key.length()) {
-        newCode += templateCode.substring(index + key.length());
-      }
-      templateCode = newCode;
-    }
-    return templateCode;
-  }
   // end - COMPILING USERS SOURCE AND RUNNING METHODS
   ///////////////////////////////////////////////////////////////////////
 
@@ -724,7 +516,7 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   // THE FOLLOWING METHODS MOSTLY DEAL WITH UPDATING THE GUI
   /**
    * Called when error occur
-   *
+   * TODO Is this used? If not we can remove it.
    * @param errorMsg the message of this error to display
    */
   void alert(String errorMsg) {
@@ -735,22 +527,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     outputTextArea.setEditable(true);
     outputTextArea.setText(output);
     outputTextArea.setEditable(false);
-  }
-
-  private boolean isError() {
-    return error;
-  }
-
-  public void setError(boolean isError) {
-    error = isError;
-  }
-
-  private void setHeaderLines(int lines) {
-    headerLines = lines;
-  }
-
-  public int getHeaderLines() {
-    return headerLines;
   }
 
   public void setLineNumber(int num) {
@@ -799,11 +575,6 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     }
   }
 
-  // for implementing FilenameFilter
-  public boolean accept(File dir, String name) {
-    return name.endsWith("." + extension);
-  }
-
   void exitJUDO(AWTEvent e) {
     if (isDirty) {
       int save;
@@ -834,15 +605,15 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
 
   public void changedUpdate(DocumentEvent e) {
     setDirty();
-    setError(true);
+    judoCompiler.setError(true);
   }
   public void insertUpdate(DocumentEvent e) {
     setDirty();
-    setError(true);
+    judoCompiler.setError(true);
   }
   public void removeUpdate(DocumentEvent e) {
     setDirty();
-    setError(true);
+    judoCompiler.setError(true);
   }
   void setDirty() {
     isDirty = true;
@@ -857,6 +628,8 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
   /////////////////////////////////////////////////////////////////////////
   // THE FOLLOWING METHODS DEAL MOSTLY WITH JUDO SOURCE FILE OPERATIONS
   boolean save(boolean defaultLocation, boolean saveAs) {
+    
+    /*
     String filePath = "";
 
     // if it is the first save, or our last save was to a different save location
@@ -908,365 +681,188 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     else {
       return writeJUDOFile(defaultLocation);
     }
-  }
 
-  /**
-   * sets up output directory (exits? writable?)
-   * calls to write the file, or displays error messages where necessary
-   * @param defaultLocation if we are saving in the main programs directory
-   * @return true if wrote out the JUDO program successfully, false otherwise.
-   */
-
-  boolean writeJUDOFile(boolean defaultLocation) {
-    File defaultProgramDirectory = new File(judoProgramDir);
-
-    if (! defaultProgramDirectory.exists()) {
-      // judo program dir doesnt exist, try and create it
-      if (! defaultProgramDirectory.mkdir()) {
-        JOptionPane.showMessageDialog(this, lz.IDE_NO_PROG_DIR_MSG,
-                                      lz.IDE_ERR_SAVING_TIT,
-                                      JOptionPane.ERROR_MESSAGE);
-        return false;
-      }
-      if (! defaultProgramDirectory.canWrite()) {
-        JOptionPane.showMessageDialog(this, lz.IDE_PROG_DIR_NOT_WRIT,
-                                      lz.IDE_ERR_SAVING_TIT,
-                                      JOptionPane.ERROR_MESSAGE);
-        return false;
-      }
-    }
-    
-    return writeProgramToDisk(judoProgramDir + pathSeparator + programFilename + "." + extension);
-  }
-
-  boolean writeProgramToDisk(String filePath) {
-    headerMap.put(JUDOAPP_TITLE, programName);
-    headerMap.put(JUDO_TYPE, appType);
-
-    // if filePath ends in .judo.judo, remove one
-    // this happens when saving a file that you opened
-    if (filePath.indexOf("." + extension + "." + extension) != -1) {
-      filePath = filePath.substring(0, filePath.length() - extension.length());
-    }
-
-    String headers = generateHeaderComments();
-    String code = codeTextArea.getText();
-    return putFileText(filePath, headers + code);
-  }
-
-  private boolean fileExists(String filePath) {
-    File codeFile = new File(filePath);
-    return codeFile.exists();
-  }
-
-  // if programOrSample == true, it is from the program dir
-  // if programOrSample == false, it is from the samples dir
-  // 
-  // Note that defaultLocation is never accessed in this function.
-  HashMap getProgramNames(boolean programOrSample, boolean defaultLocation) {
-    String basePath = "";
-    Vector programVector = new Vector();
-    HashMap programs = new HashMap();
-
-    if (programOrSample) {
-      basePath = judoProgramDir;
-    }
-    else {
-      basePath = helpSamplesDir;
-    }
-
-    File programsDir = new File(basePath);
-    File[] programFiles = programsDir.listFiles(this);
-    if (programFiles == null) {
-      return null;
-    }
-    String line = "";
-    for (int i = 0; i < programFiles.length; i++) {
-      programs.put(getProgramName(programFiles[i]), programFiles[i].getName());
-    }
-    return programs;
-  }
-
-  String[] getProgramNamesStringArray(HashMap programsMap) {
-    String[] names;
-    int count = 0;
-    names = new String[programsMap.size()];
-    String key = "";
-    Set keys = programsMap.keySet();
-    Iterator keyIterator = keys.iterator();
-    while (keyIterator.hasNext()) {
-      key = (String) keyIterator.next();
-      names[count] = key;
-      count++;
-    }
-    return names;
-  }
-
-  String getProgramName(File f) {
-    BufferedReader programReader = null;
-    String name = "";
-
-    // open the file
-    try {
-      programReader = new BufferedReader(new FileReader(f));
-    }
-    catch (FileNotFoundException fnfe) {
-      displayOutput(ju.getString(lz.IDE_404_ERR, f.getName()));
-    }
-
-    // get the code
-    try {
-      String line = "";
-      int index = -1;
-      String searchString = JUDO_KEY_PREFIX + JUDOAPP_TITLE + "=";
-      while ((line = programReader.readLine()) != null) {
-        if ((index = line.indexOf(searchString)) != -1) {
-          name = line.substring(index + searchString.length());
-          break;
-        }
-      }
-
-      programReader.close();
-      return name;
-    } catch (IOException ioe) {
-      displayOutput(ju.getString(lz.IDE_READ_FILE_ERR, f.getName()));
-    }
-    return null;
-  }
-
-  /**
-   * Reads in a .judo file and returns the code
-   * Also initializes the headerMap based on the JUDOPROP comments
-   * @param filePath the path to the file to read in
-   * @return the code of the .judo file
-   */
-  String getProgramText(String filePath) {
-    BufferedReader programReader = null;
-    String programText = "";
-    int index = -1;
-
-    // open the file
-    try {
-      programReader = new BufferedReader(new FileReader(filePath));
-    }
-    catch (FileNotFoundException fnfe) {
-      displayOutput(ju.getString(lz.IDE_404_ERR, filePath));
-    }
-
-    // get the code
-    try {
-      String line = "";
-      String key = "";
-      String val = "";
-      String searchString = JUDO_PROP_COMMENT;
-
-      while ((line = programReader.readLine()) != null) {
-        if ((index = line.indexOf(searchString)) != -1) {
-          // read the comment and store in headerMap
-          key = line.substring(line.indexOf(JUDO_KEY_PREFIX, index) + 1, line.indexOf("=", index));
-          val = line.substring(line.indexOf("=", index) + 1);
-          headerMap.put(key, val);
-          continue;
-        }
-        programText += line + "\n";
-      }
-
-      programReader.close();
-      return programText;
-    } catch (IOException ioe) {
-      displayOutput(ju.getString(lz.IDE_READ_FILE_ERR, filePath));
-    }
-    return null;
-  }
-
-  boolean openProgram(boolean defaultLocation) {
-    String filePath = "";
-    String programText = "";
-
-    // if there are changes, check that they dont want to save before
-    // opening a new one
-    if (isDirty) {
-      int save;
-      save = JOptionPane.showConfirmDialog(this, lz.IDE_OPEN_NO_SAVE_MSG,
-                                           lz.IDE_OPEN_NO_SAVE_TIT, JOptionPane.YES_NO_OPTION);
-      if (save == JOptionPane.NO_OPTION) {
-        return false;
-      }
-    }
-
-    HashMap programsMap = getProgramNames(true, defaultLocation);
-    if (programsMap == null || programsMap.size() == 0) {
-      JOptionPane.showMessageDialog(this, lz.IDE_NO_PROG_MSG,
-                                    lz.IDE_NO_PROG_TIT,
-                                    JOptionPane.ERROR_MESSAGE);
-      return false;
-    }
-
-    openDialog = new JUDOOpenDialog(this, this, codeBase + pathSeparator + "images" + pathSeparator + openIconFilename, lz.IDE_OPEN_TIT, getProgramNamesStringArray(programsMap));
-    openDialog.pack();
-    openDialog.setLocationRelativeTo(this);
-    openDialog.setVisible(true);
-
-    if (openDialog.canceled()) {
-      return false;
-    }
-
-    // set error because we are opening new program, and if user hits run
-    // we want it to recompile
-    setError(true);
-
-    programName = openDialog.getProgramName();
-    programFilename = (String) programsMap.get(programName);
-
-    // populate text area
-
-    filePath = judoProgramDir + pathSeparator + programFilename;
-
-    programText = getProgramText(filePath);
-    if (programText == null || programText.equals("")) {
-      JOptionPane.showMessageDialog(this, ju.getString(lz.IDE_OPEN_PROG_MSG, programName),
-                                    lz.IDE_OPEN_PROG_ERR_TIT,
-                                    JOptionPane.ERROR_MESSAGE);
-      return false;
-    }
-    outputTextArea.setText("");
-    codeTextArea.setText(programText);
-    isDirty = false;
-    setTitle(titlePrefix + programName);
-    appType = (String) headerMap.get(JUDO_TYPE);
-    codeTextArea.requestFocus();
-    codeTextArea.setCaretPosition(0);
-    return true;
-  }
-
-  void openSampleProgram(String filename) {
-    if (isDirty) {
-      if (JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog(this,
-                                              lz.IDE_OPEN_SAMPLE_CONFIRM_MSG,
-                                              lz.IDE_OPEN_SAMPLE_CONFIRM_TIT,
-                                              JOptionPane.YES_NO_OPTION,
-                                              JOptionPane.QUESTION_MESSAGE)) {
-        return;
-      }
-    }
-
-    String filePath = helpSamplesDir + pathSeparator + filename;
-    String programText = getProgramText(filePath);
-    programName = (String) headerMap.get(JUDOAPP_TITLE);
-    HashMap programsMap = getProgramNames(false, true);
-    programFilename = (String) programsMap.get(programName);
-    if (programText == null || programText.equals("")) {
-      JOptionPane.showMessageDialog(this, ju.getString(lz.IDE_OPEN_PROG_MSG, programName),
-                                    lz.IDE_OPEN_PROG_ERR_TIT,
-                                    JOptionPane.ERROR_MESSAGE);
-      return;
-    }
-    outputTextArea.setText("");
-    codeTextArea.setText(programText);
-    setError(true);
-    setTitle(titlePrefix + programName);
-    setDirty();
-    appType = (String) headerMap.get(JUDO_TYPE);
-    codeTextArea.requestFocus();
-    codeTextArea.setCaretPosition(0);
-  }
-
-  boolean deleteProgram(boolean defaultLocation) {
-    String filePath = "";
-    String programText = "";
-
-    HashMap programsMap = getProgramNames(true, defaultLocation);
-    if (programsMap == null || programsMap.size() == 0) {
-      JOptionPane.showMessageDialog(this, lz.IDE_NO_PROG_DEL_MSG,
-                                    lz.IDE_NO_PROG_DEL_TIT,
-                                    JOptionPane.ERROR_MESSAGE);
-      return false;
-    }
-
-    deleteDialog = new JUDODeleteDialog(this, this, codeBase + pathSeparator + "images" + pathSeparator + deleteIconFilename, lz.IDE_DEL_TIT, getProgramNamesStringArray(programsMap));
-    deleteDialog.pack();
-    deleteDialog.setLocationRelativeTo(this);
-    deleteDialog.setVisible(true);
-
-    if (deleteDialog.canceled()) {
-      return false;
-    }
-
-    programName = deleteDialog.getProgramName();
-    programFilename = (String) programsMap.get(programName);
-
-    filePath = judoProgramDir + pathSeparator + programFilename;
-
-    // delete the file
-    File fileToDelete = new File(filePath);
-    if (! fileToDelete.delete()) {
-      JOptionPane.showMessageDialog(this, ju.getString(lz.IDE_DELETE_PROG_MSG, programName),
-                                    lz.IDE_DELETE_PROG_ERR_TIT,
-                                    JOptionPane.ERROR_MESSAGE);
-      return false;
-    }
-
-    codeTextArea.requestFocus();
-    return true;
-  }
-
-  boolean newProgram() {
-    // if there are changes, check that they dont want to save before
-    // opening a new one
-    if (isDirty) {
-      int save;
-      save = JOptionPane.showConfirmDialog(this, lz.IDE_NEW_WITHOUT_SAVE_MSG,
-                                           lz.IDE_NEW_WITHOUT_SAVE_TIT, JOptionPane.YES_NO_OPTION);
-      if (save == JOptionPane.NO_OPTION) {
-        return false;
-      }
-    }
-
-    headerMap.put(JUDO_TYPE, JUDOBase.jud0_TYPE_BOTH);
-
-    // set error because we are opening new program, and if user hits run
-    // we want it to recompile
-    setError(true);
-
-    programName = defaultProgramName;
-    outputTextArea.setText("");
-    codeTextArea.setText("");
-    codeTextArea.requestFocus();
-    codeTextArea.setCaretPosition(0);
-    isDirty = false;
-    setTitle(titlePrefix + programName);
-    return true;
-  }
-
-  String getFilenameFromProgramName(String programNameText) {
-    String filenameText = "";
-    for (int i = 0; i < programNameText.length(); i++) {
-      if (programNameText.charAt(i) != ' ') {
-        filenameText += programNameText.charAt(i);
-      }
-    }
-    filenameText = filenameText.toLowerCase();
-    return filenameText;
-  }
-
-  private String generateHeaderComments() {
-    String key = "";
-    String val = "";
-    String headerText = "";
-    Set keys = headerMap.keySet();
-    Iterator keyIterator = keys.iterator();
-    while (keyIterator.hasNext()) {
-      key = (String) keyIterator.next();
-      val = (String) headerMap.get(key);
-      headerText += JUDO_PROP_COMMENT + JUDO_KEY_PREFIX + key + "=" + val + newline;
-    }
-
-    return headerText;
+    */
+   return false;
   }
 
   // end JUDO SOURCE FILE OPERATIONS METHODS
   /////////////////////////////////////////////////////////////////////////
 
+  void runCode() {
+
+    // they just hit run, don't let them do it again till running is done.
+    enableRun(false);
+
+    // only (re)compile if necessary
+    // We could change this so that this check is done in compileCode.
+    if (judoCompiler.hasError()) {
+      judoCompiler.compileCode();
+    }
+
+    // only run java if there were no errors (output in output text area)
+    if (!judoCompiler.hasError()) {
+      Command java = null;
+
+      if (isWindows) {
+        java = new Command(javaString +
+                           " -classpath \"" + judoProgramDir + ";" + classpath + "\" " +
+                           "JUDOApp",
+                           this, false);
+      }
+      else {
+        java = new Command(javaString +
+                           " -classpath " + judoProgramDir + ":" + classpath + " " +
+                           "JUDOApp",
+                            this, false);
+      }
+      Thread javaThread = new Thread(java);
+      javaThread.start();
+    }
+
+    enableRun(true);
+  }
+
+  /**
+   * Save the current JUDO program to disk.
+   * This also updates the GUI, letting the user know that the program was saved (or not).
+   * @return True if successful, false if unsuccessful.
+   */
+  private void saveAction() {
+    /*
+    boolean saveSuccess = false;
+
+    if (saveSuccess) {
+      setTitle(titlePrefix + programName);
+      isDirty = false;
+      lastSaveDefault = true;
+    }
+    */
+  }
+
+  /**
+   * Save the current JUDO program to disk, prompting first for the filename.
+   * This also updates the GUI, letting the user know that the program was saved (or not).
+   * @return True if successful, false if unsuccessful.
+   */
+  private void saveAsAction() {
+    /*
+    boolean saveSuccess = false;
+
+    if (saveSuccess) {
+      setTitle(titlePrefix + programName);
+      isDirty = false;
+      lastSaveDefault = true;
+    }*/
+  }
+
+  private void openAction() {
+
+    if (!shouldDeleteDirtyProgram()) {
+      return;
+    }
+
+    ArrayList<String> userProgramNames = judoProgramManager.getUserProgramNames();
+
+    if (userProgramNames == null || userProgramNames.size() == 0) {
+      JOptionPane.showMessageDialog(this, lz.IDE_NO_PROG_MSG,
+                                    lz.IDE_NO_PROG_TIT,
+                                    JOptionPane.ERROR_MESSAGE);
+      return;
+    }
+
+    openDialog = new JUDOOpenDialog(
+      this,
+      this,
+      codeBase + pathSeparator + "images" + pathSeparator + openIconFilename,
+      lz.IDE_OPEN_TIT,
+      userProgramNames.toArray(new String[userProgramNames.size()])
+    );
+    openDialog.pack();
+    openDialog.setLocationRelativeTo(this);
+    openDialog.setVisible(true);
+
+    if (openDialog.canceled()) {
+      return;
+    }
+
+    String programName = openDialog.getProgramName();
+    JUDOProgram openedProgram = null;
+    
+    try {
+      openedProgram = judoProgramManager.openProgram(programName);
+    } catch (FileNotFoundException fileNotFoundException) {
+      displayOutput(ju.getString(lz.IDE_404_ERR, fileNotFoundException.getMessage()));
+    } catch (IOException ioException) {
+      displayOutput(ju.getString(lz.IDE_READ_FILE_ERR, ioException.getMessage()));
+    }
+
+    if (openedProgram == null || openedProgram.getUserCode() == null) {
+      JOptionPane.showMessageDialog(this, ju.getString(lz.IDE_OPEN_PROG_MSG, programName),
+                                    lz.IDE_OPEN_PROG_ERR_TIT,
+                                    JOptionPane.ERROR_MESSAGE);
+      return;
+    }
+
+    // Set error because we are opening a new program, and if user hits run
+    // we want it to recompile
+    judoCompiler.setError(true);
+
+    outputTextArea.setText("");
+    codeTextArea.setText(openedProgram.getUserCode());
+    isDirty = false;
+    setTitle(titlePrefix + openedProgram.getUserTitle());
+    codeTextArea.requestFocus();
+    codeTextArea.setCaretPosition(0);
+  }
+
+  private void openSampleAction() {
+    //openHelpItem(lz.IDE_FILE_OPEN_SAMPLE, "SamplePrograms.html", true);
+  }
+
+  private void deleteAction() {
+    //deleteProgram(true);
+  }
+
+  private void newAction() {
+    
+    if (!shouldDeleteDirtyProgram()) {
+      return;
+    }
+
+    // Set error because we are opening new program, and if user hits run
+    // we want it to recompile
+    judoCompiler.setError(true);
+
+    userProgram = judoProgramManager.createNewProgram();
+
+    outputTextArea.setText("");
+    codeTextArea.setText(userProgram.getUserCode());
+    codeTextArea.requestFocus();
+    codeTextArea.setCaretPosition(0);
+
+    // TODO Need to revisit the isDirty design. Can it be merged with judoCompiler.hasError? 
+    isDirty = false;
+    setTitle(titlePrefix + userProgram.getUserTitle());
+  }
+
+  /**
+   * If the current program is dirty, we need to confirm that the user wants to delete it without
+   * saving changes.
+   * @return False if the code should be kept, true if it can be deleted (or if the code isn't dirty).
+   */
+  private boolean shouldDeleteDirtyProgram() {
+    
+    // The code has been saved, we don't need to ask.
+    if (!isDirty) {
+      return true;
+    }
+
+    int response = JOptionPane.showConfirmDialog(this, lz.IDE_OPEN_NO_SAVE_MSG,
+                                         lz.IDE_OPEN_NO_SAVE_TIT, JOptionPane.YES_NO_OPTION);
+    
+    return response != JOptionPane.NO_OPTION;
+  }
 
   /////////////////////////////////////////////////////////////////////////
   //  ACTIONPERFORMED
@@ -1274,6 +870,9 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
    * Act on all of JUDO's GUI Events
    * This is a huge method because there are many events that can happen
    * from many different sources.  Mostly menus
+   *
+   * TODO Need to refactor this function using ideas found at
+   * http://alvinalexander.com/java/java-command-design-pattern-in-java-examples
    */
   public void actionPerformed(ActionEvent ae) {
 
@@ -1284,30 +883,22 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
       exitJUDO(ae);
     }
     else if (ae.getSource() == saveMenuItem) {
-      if (save(true, false)) {
-        setTitle(titlePrefix + programName);
-        isDirty = false;
-        lastSaveDefault = true;
-      }
+      saveAction();
     }
     else if (ae.getSource() == saveAsMenuItem) {
-      if (save(true, true)) {
-        setTitle(titlePrefix + programName);
-        isDirty = false;
-        lastSaveDefault = true;
-      }
+      saveAsAction();
     }
     else if (ae.getSource() == openMenuItem) {
-      openProgram(true);
+      openAction();
     }
     else if (ae.getSource() == openSampleMenuItem) {
-      openHelpItem(lz.IDE_FILE_OPEN_SAMPLE, "SamplePrograms.html", true);
+      openSampleAction();
     }
     else if (ae.getSource() == deleteMenuItem) {
-      deleteProgram(true);
+      deleteAction();
     }
     else if (ae.getSource() == newMenuItem) {
-      newProgram();
+      newAction();
     }
     else if (ae.getSource() == gotoLineMenuItem) {
       String lineNumberString = JOptionPane.showInputDialog(this, lz.IDE_GOTO_LINE_NUM_MSG,
@@ -1446,55 +1037,17 @@ public class JUDOIDE extends JFrame implements ActionListener, WindowListener, D
     }
   }
 
-  /**
-   * Determines the program type by reading the program code and seeing
-   * what functions are called.
-   */
-  void determineProgramType(String code) {
-    hasText = false;
-    hasGraphics = false;
-    appType = JUDOBase.jud0_TYPE_BOTH;
+  public JUDOProgram getUserProgram() {
+    return userProgram;
+  }
 
-    checkForCall(code, "printLine", false);
-    checkForCall(code, "print", false);
-    checkForCall(code, "readString", false);
-    checkForCall(code, "readInt", false);
-    checkForCall(code, "readDouble", false);
-    checkForCall(code, "readBoolean", false);
-    checkForCall(code, "readColor", false);
+  // TODO Need to fill out stub.
+  public int getHeaderLines() {
+    return -1;
+  }
 
-    checkForCall(code, "drawLine", true);
-    checkForCall(code, "drawRectangle", true);
-    checkForCall(code, "fillRectangle", true);
-    checkForCall(code, "clearRectange", true);
-    checkForCall(code, "clearDrawing", true);
-    checkForCall(code, "drawOval", true);
-    checkForCall(code, "fillOval", true);
-    checkForCall(code, "drawCircle", true);
-    checkForCall(code, "fillCircle", true);
-    checkForCall(code, "drawString", true);
-    checkForCall(code, "setBackgroundColor", true);
-    checkForCall(code, "setColor", true);
-    checkForCall(code, "getDrawingWidth", true);
-    checkForCall(code, "getDrawingHeight", true);
-    checkForCall(code, "drawPolygon", true);
-    checkForCall(code, "fillPolygon", true);
-    checkForCall(code, "getMouseEvent", true);
-    checkForCall(code, "getMouseX", true);
-    checkForCall(code, "getMouseY", true);
-    checkForCall(code, "getDragStartX", true);
-    checkForCall(code, "getDragStartY", true);
-    checkForCall(code, "getDragEndX", true);
-    checkForCall(code, "getDragEndY", true);
-    checkForCall(code, "getMouseButton", true);
+  // TODO Need to fill out stub.
+  public void openSampleProgram(String what) {
 
-    if (hasText && ! hasGraphics) {
-      appType = JUDOBase.jud0_TYPE_TEXT;
-    }
-    else if (! hasText && hasGraphics) {
-      appType = JUDOBase.jud0_TYPE_GRAPHICS;
-    }
-
-    headerMap.put(JUDO_TYPE, appType);
   }
 }

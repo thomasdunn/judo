@@ -22,6 +22,7 @@ import java.util.*;
 
 /**
  * For parsing compiler errors and reporting them back to the ide
+ * TODO This may need to be rethought as part of JUDOCompiler refactor.
  *
  * @author Thomas Dunn
  * @version 1.3
@@ -30,6 +31,7 @@ public class CompilerError {
 
   Vector errorVector;
   JUDOIDE judoIDE;
+  JUDOCompiler judoCompiler;
 
   Properties errorMap;
 
@@ -46,10 +48,11 @@ public class CompilerError {
   // number of lines above user inputted code in JUDOApp.java
   int headerLines = 0;
 
-  public CompilerError(Vector errors, JUDOIDE ide) {
+  public CompilerError(Vector errors, JUDOIDE ide, JUDOCompiler judoCompiler) {
     judoIDE = ide;
     headerLines = judoIDE.getHeaderLines();
     errorVector = errors;
+    this.judoCompiler = judoCompiler;
     initErrorMap();
   }
 
@@ -159,13 +162,13 @@ public class CompilerError {
 
     if (errorVector.size() == 0) {
       judoIDE.displayOutput(judoIDE.lz.CER_COMP_SUCCESS);
-      judoIDE.setError(false);
+      judoCompiler.setError(false);
     }
     else {
       // add the number of errors at the end
       errorMessage += (String) errorVector.elementAt(errorVector.size() - 1);
       judoIDE.displayOutput(errorMessage);
-      judoIDE.setError(true);
+      judoCompiler.setError(true);
     }
   }
 

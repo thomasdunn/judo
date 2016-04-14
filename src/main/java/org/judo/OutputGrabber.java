@@ -49,7 +49,7 @@ public class OutputGrabber implements Runnable {
       }
 
       if (parseForErrors) {
-        CompilerError ce = new CompilerError(all, judoIDE);
+        CompilerError ce = new CompilerError(all, judoIDE, judoIDE.judoCompiler);
         ce.parseErrors();
       }
     } catch (IOException ioe) {}
